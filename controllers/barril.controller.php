@@ -1,0 +1,127 @@
+<?php
+require_once __DIR__ . '/../models/barril.model.php';
+require_once __DIR__ . '/../models/lugar.model.php';
+
+class BarrilController {
+    private $barrilModel;
+    private $lugarModel;
+
+    public function __construct() {
+        $this->barrilModel = new Barril();
+        $this->lugarModel = new LugarModel();
+    }
+
+    public function insertarBarril() {
+        if ($_SERVER["REQUEST_METHOD"] === "POST") {
+            $codigo = filter_input(INPUT_POST, 'codigo', FILTER_SANITIZE_STRING);
+            $id_variedad = filter_input(INPUT_POST, 'id_variedad', FILTER_VALIDATE_INT);
+            $id_lugar = filter_input(INPUT_POST, 'id_lugar', FILTER_VALIDATE_INT);
+            $litros = filter_input(INPUT_POST, 'litros', FILTER_VALIDATE_INT);
+            $estado = in_array($_POST['estado'], ['LLENO', 'VACIO', 'EN USO']) ? $_POST['estado'] : null;
+
+            // Verificar si algún dato es inválido o está vacío
+            if (!$codigo || !$id_variedad || !$id_lugar || !$litros || !$estado) {
+                $lugar = $this->barrilModel->obtenerNombreLugar($id_lugar);
+                $redirect = ($lugar === "CAMARA") ? 'listar_barrilescamara.php' : 'listar_ventas.php';
+                header("Location: ./$redirect?mensaje=dato_incompleto");
+                exit();
+            }
+
+            // Intentar insertar el barril en la base de datos
+            if ($this->barrilModel->insertarBarril($codigo, $id_variedad, $id_lugar, $litros, $estado)) {
+                $lugar = $this->barrilModel->obtenerNombreLugar($id_lugar);
+                $redirect = ($lugar === "CAMARA") ? 'listar_barrilescamara.php' : 'listar_ventas.php';
+                header("Location: ./$redirect?mensaje=exito");
+            } else {
+                $lugar = $this->barrilModel->obtenerNombreLugar($id_lugar);
+                $redirect = ($lugar === "CAMARA") ? 'listar_barrilescamara.php' : 'listar_ventas.php';
+                header("Location: ./$redirect?mensaje=error");
+            }
+            exit();
+        }
+    }
+
+    public function getBarriles() {
+        return $this->barrilModel->obtenerTodos();
+    }
+
+    public function mostrarFormulario() {
+        $variedades = $this->barrilModel->getAllVariedades();
+        $lugares = $this->lugarModel->getAllLugares();
+        require_once('./views/formagregar.php');
+    }
+
+    public function getBarrilesFiltradosVentas($variedad = '', $codigo = '', $litros = '',$lugar) {
+        return $this->barrilModel->getBarrilesFiltradosVentas($variedad, $codigo, $litros,$lugar);
+    }
+
+    public function getBarrilesFiltradosCamara($variedad = '', $codigo = '', $litros = '') {
+        return $this->barrilModel->getBarrilesFiltradosCamara($variedad, $codigo, $litros);
+    }
+
+    public function getEstadoByCodigo($codigo) {
+        return $this->barrilModel->getEstadoByCodigo($codigo) ?? null;
+    }
+
+    
+    public function modificarBarril() {
+        if ($_SERVER["REQUEST_METHOD"] === "POST") {
+            $codigo = filter_input(INPUT_POST, 'codigo', FILTER_SANITIZE_STRING);
+            $id_variedad = filter_input(INPUT_POST, 'id_variedad', FILTER_VALIDATE_INT);
+            $id_lugar = filter_input(INPUT_POST, 'id_lugar', FILTER_VALIDATE_INT);
+            $litros = filter_input(INPUT_POST, 'litros', FILTER_VALIDATE_INT);
+            $estado = in_array($_POST['estado'], ['LLENO', 'VACIO', 'EN USO']) ? $_POST['estado'] : null;
+            $fecha_venta = date('Y-m-d'); // Solo fecha con año, mes y día
+
+
+
+            if (!$codigo || !$id_variedad || !$id_lugar || !$litros || !$estado||!$fecha_venta) {
+                header("Location: ./actualizarbarril.php?codigo=$codigo&mensaje=dato_incompleto");
+                exit();
+            }
+
+            if ($this->barrilModel->modificarBarrilPorCodigo($codigo, $id_variedad, $id_lugar, $litros, $estado,$fecha_venta)) {
+                $lugar = $this->barrilModel->obtenerNombreLugar($id_lugar);
+
+                // Redirigir según el estado
+                if ($estado === "VACIO") {
+                    $redirect = 'listar_barriles_vacios.php';
+                } elseif ($lugar === "CAMARA") {
+                    $redirect = 'listar_barrilescamara.php';
+                } else {
+                    $redirect = 'listar_ventas.php';
+                }
+
+                header("Location: ./$redirect?mensaje=exito");
+            } else {
+                header("Location: ./actualizarbarril.php?codigo=$codigo&mensaje=error");
+            }
+            exit();
+        }
+    }
+    
+    
+    public function getBarrilesPorEstado($estado) {
+        return $this->barrilModel->obtenerBarrilesPorEstado($estado);
+    }
+    public function getBarrilById($id_barril) {
+        return $this->barrilModel->obtenerBarrilPorId($id_barril);
+    }
+
+    public function getBarrilBycodigo($codigo){
+    if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['buscar_barril'])) {
+        // Verificamos que el código esté presente en el POST
+        if (isset($_POST['codigo']) && !empty($_POST['codigo'])) {
+            // Obtener el código del barril desde el formulario
+            $codigo = $_POST['codigo'];
+            // Llamar al método para obtener el barril por código
+            $resultado =$this->barrilModel->obtenerBarrilPorCodigo($codigo);
+            return $resultado;
+        }
+    }
+    }
+    public function getFechaByCodigo($codigo) {
+        return $this->barrilModel->getFechaByCodigo($codigo);
+    }
+    
+}

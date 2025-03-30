@@ -1,0 +1,651 @@
+*{
+    margin:0;
+    padding: 0;
+    box-sizing: border-box;
+}
+body{
+    background-color: #000000;
+    font-family: "Roboto Condensed", sans-serif;
+    height: 100%;
+    
+    
+}
+
+/* Estilos para el header */
+/* Estilos generales para el header */
+.header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+    height: 200px;
+    background-color: #1a1a1a; /* Fondo oscuro */
+    padding: 20px;
+    transition: top 0.3s; /* Agrega una transición suave cuando se fije */
+}
+
+/* Estilo para el título dentro del header */
+.nombre h2 {
+    font-size: 2.5rem;
+    font-weight: bold;
+    color: #fff;
+    margin-right: 40px;
+}
+
+/* Estilo de la imagen del logo */
+.header-image .image {
+    max-height: 100%;
+    max-width: 150px;
+    object-fit: cover;
+    border-radius: 10px;
+}
+
+/* Estilo cuando el header se hace fijo */
+.header.fixed {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    z-index: 1000; /* Asegura que el header esté encima de otros elementos */
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.5); /* Sombra para el efecto de fijación */
+}
+
+/* Estilos generales de la barra de navegación */
+.navbar {
+    background-color: rgba(51, 51, 51, 0.9); /* Fondo con leve transparencia */
+    padding: 15px 0;
+    font-family: Arial, sans-serif;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* Sombra para dar profundidad */
+    position: fixed; /* Fija la navbar arriba */
+    width: 100%;
+    top: 0;
+    left: 0;
+    z-index: 1000;
+    position: sticky;
+}
+
+/* Estilos para la lista de elementos del navbar */
+.navbar-list {
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+    text-align: center;
+    display: flex;
+    justify-content: center;
+}
+
+.navbar-list li {
+    display: inline-block;
+    margin: 0 15px;
+    position: relative;
+}
+
+.navbar-link {
+    color: #fff;
+    text-decoration: none;
+    font-size: 16px;
+    padding: 10px 15px;
+    border-radius: 5px;
+    transition: all 0.3s ease-in-out;
+    position: relative;
+}
+
+/* Efecto de subrayado animado */
+.navbar-link::after {
+    content: "";
+    position: absolute;
+    left: 50%;
+    bottom: -5px;
+    width: 0;
+    height: 3px;
+    background-color: #ffcc00;
+    transition: width 0.3s ease, left 0.3s ease;
+}
+
+.navbar-link:hover::after {
+    width: 100%;
+    left: 0;
+}
+
+.navbar-link:hover {
+    background-color: rgba(255, 255, 255, 0.1); /* Fondo sutil al pasar el mouse */
+    color: #ffcc00; /* Color destacado */
+}
+
+/* Estilos para dispositivos móviles */
+@media screen and (max-width: 768px) {
+    .navbar {
+        padding: 10px 0;
+    }
+
+    .navbar-list {
+        flex-direction: column;
+        align-items: center;
+    }
+
+    .navbar-list li {
+        margin: 10px 0;
+        width: 100%;
+        text-align: center;
+    }
+
+    .navbar-link {
+        display: block;
+        width: 100%;
+        padding: 12px;
+    }
+
+    .navbar-link:hover {
+        background-color: #555;
+    }
+}
+
+/* Contenedor Principal */
+.main-container {
+    display: flex;
+    width: 100%;  /* Ocupar toda la pantalla */
+    height: 1000px; /* Ocupar toda la altura */
+    margin-top: 0px;
+    background-image: url('./img/fondoo.jpg');  /* Asegúrate de que la ruta sea correcta */
+    background-size: cover;
+    background-position: center center;
+    background-attachment: fixed;
+}
+
+/* Sección Izquierda (Slider) */
+.left-section {
+    width: 50%;
+    background-color: #000000; /* Color de fondo para que contraste */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 3px;
+
+}
+
+/* Slider */
+.slider-box {
+    width: 700px;
+    height: 1000px;
+    overflow: hidden;
+    position: relative;
+}
+
+.slider-box ul {
+    display: flex;
+    padding: 0;
+    margin: 0;
+    width: 700%;
+    animation: slide 20s infinite linear;
+}
+
+.slider-box li {
+    flex: 0 0 100%;
+    list-style: none;
+}
+
+.slider-box img {
+    width: 15%;
+    display: block;
+    object-fit: cover;
+}
+
+/* Animación del Slider */
+@keyframes slide {
+    0%, 14% { transform: translateX(0%); }
+    15%, 29% { transform: translateX(-100%); }
+    30%, 44% { transform: translateX(-200%); }
+    45%, 59% { transform: translateX(-300%); }
+    60%, 74% { transform: translateX(-400%); }
+    75%, 89% { transform: translateX(-500%); }
+    90%, 100% { transform: translateX(-600%); }
+}
+
+/* Sección Derecha (Texto e Imagen de Fondo) */
+.right-section {
+    width: 70%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    margin-right: 200px;
+}
+
+/* Texto */
+.right-section h2 {
+    color: #fff;
+    font-size: 28px;
+    margin-bottom: 20px;
+}
+
+/* Botones */
+.button-container {
+    display: flex;
+    flex-direction: row;
+    gap: 60px;
+    margin-top: 30px;
+    width: 900px;
+}
+
+.button {
+    padding: 12px 25px;
+    font-size: 18px;
+    font-family: "Roboto Condensed", sans-serif;
+    color: rgb(0, 0, 0);
+    background-color: rgb(255, 255, 255);
+    border: none;
+    cursor: pointer;
+    border-radius: 5px;
+    transition: 0.3s;
+    width: 100%;
+    height: 100%;
+
+}
+
+.button:hover {
+    background-color: rgba(104, 104, 104, 0.9);
+}
+
+.btn{
+    width: 150px;
+    height: 150px;
+}
+
+.contenedor-form{
+    background-color: #585858;
+    margin-left: 20px;
+    flex-direction: column;
+}
+.addbarril{
+    text-align: center;
+    color: #fff;
+    font-size: 30px;
+}
+/* Formulario de Agregar Barril */
+.form-agregar {
+    display: block;
+    background-color: #585858;
+    padding: 20px;
+    border-radius: 10px;
+    width: 100%;
+    max-width: 400px;
+    margin: 0 auto;
+    height: 300px;
+}
+
+.form-agregar label {
+    font-weight: bold;
+    margin-top: 10px;
+    color: #fff;
+}
+
+.form-agregar input,
+.form-agregar select {
+    width: 100%;
+    padding: 12px;
+    font-size: 14px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    margin-bottom: 25px;
+    background-color: #f9f9f9;
+    transition: border 0.3s ease;
+}
+
+.form-agregar input:focus,
+.form-agregar select:focus {
+    border-color: #007bff;
+}
+
+.form-agregar button {
+    margin-top: 10px;
+    padding: 12px;
+    font-size: 16px;
+    font-weight: bold;
+    color: white;
+    background-color: #007bff;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background 0.3s ease;
+}
+
+.form-agregar button:hover {
+    background-color: #0056b3;
+}
+
+
+
+
+/* Estilos del Footer */
+footer {
+    background-color: #333;
+    color: #fff;
+    padding: 20px 0;
+    text-align: center;
+    width: 100%;
+    margin-top: auto;
+}
+
+.footer-container p {
+    margin: 5px 0;
+    font-size: 14px;
+}
+.section-agregar {
+    display: flex;
+    justify-content: center; /* Centra horizontalmente */
+    align-items: center; /* Centra verticalmente */
+    height: 100vh; /* Hace que la sección ocupe toda la altura de la pantalla */
+}
+h2.stock{
+    color: #ffffff;
+    text-align: center;
+    font-size: 30px;
+}
+
+.contenedor-form {
+    background: #a0a0a0; /* Color de fondo */
+    padding: 20px;
+    border-radius: 10px; /* Bordes redondeados */
+    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.2); /* Sombra ligera */
+    width: 100%;
+    max-width: 400px; /* Ancho máximo */
+    height: 600px;
+    text-align: center; /* Centra el texto dentro del formulario */
+    overflow-y: auto; /* Esto habilita el scroll vertical */
+}
+
+
+.btn-borrar {
+    background-color: #e74c3c;
+    color: white;
+    border: none;
+    padding: 8px 12px;
+    margin-top: 10px;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 14px;
+    transition: background 0.3s ease;
+}
+
+.btn-borrar:hover {
+    background-color: #c0392b;
+}
+.formulario-filtros {
+    background-color: #f4f4f4;
+    padding: 20px;
+    border-radius: 8px;
+    max-width: 500px;
+    margin: 0 auto;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.formulario-filtros h3 {
+    text-align: center;
+    font-size: 1.5rem;
+    color: #333;
+    margin-bottom: 15px;
+}
+
+.campo-filtro {
+    margin-bottom: 15px;
+}
+
+.campo-filtro label {
+    display: block;
+    font-size: 1rem;
+    color: #333;
+    margin-bottom: 5px;
+}
+
+.campo-filtro select {
+    width: 100%;
+    padding: 10px;
+    border-radius: 5px;
+    border: 1px solid #ccc;
+    font-size: 1rem;
+    background-color: #fff;
+    color: #333;
+    transition: border-color 0.3s ease-in-out;
+}
+
+.campo-filtro select:focus {
+    border-color: #007BFF;
+}
+
+.btn-filtrar {
+    display: block;
+    width: 100%;
+    padding: 12px;
+    background-color: #007BFF;
+    color: #fff;
+    font-size: 1rem;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s ease-in-out;
+}
+
+.btn-filtrar:hover {
+    background-color: #0056b3;
+}
+
+@media screen and (max-width: 600px) {
+    .formulario-filtros {
+        padding: 15px;
+        max-width: 100%;
+    }
+}
+
+
+
+/* lista */
+/* Contenedor principal */
+.contenedor-lista {
+    max-width: 800px;
+    margin: 20px auto;
+    padding: 20px;
+    background: #f9f9f9;
+    border-radius: 10px;
+    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+}
+
+.lista-barriles {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 15px;
+    justify-content: center;
+}
+
+.barril-card {
+    background: white;
+    padding: 15px;
+    border-radius: 8px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+    width: 280px;
+    text-align: center;
+}
+
+.barril-card h3 {
+    color: #333;
+    font-size: 20px;
+}
+
+.barril-card p {
+    font-size: 14px;
+    margin: 5px 0;
+}
+
+.estado {
+    padding: 5px 10px;
+    border-radius: 5px;
+    font-weight: bold;
+}
+
+.estado.lleno {
+    background: green;
+    color: white;
+}
+
+.estado.vacio {
+    background: red;
+    color: white;
+}
+
+.estado.parcial {
+    background: orange;
+    color: white;
+}
+
+.mensaje-vacio {
+    font-size: 16px;
+    text-align: center;
+    color: #777;
+}
+/* Formulario de Modificación de Barril */
+/* Estilos para el formulario de búsqueda de barril */
+
+
+.form-buscar-barril {
+    background-color: #f4f4f4;
+    padding: 20px;
+    border-radius: 8px;
+    width: 100%;
+    max-width: 400px;
+    margin: 30px auto;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+}
+
+.form-buscar-barril label {
+    font-size: 16px;
+    font-weight: bold;
+    color: #333;
+    margin-bottom: 8px;
+    display: block;
+}
+
+.form-buscar-barril input[type="text"] {
+    width: 100%;
+    padding: 12px;
+    font-size: 16px;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    background-color: #fff;
+    margin-bottom: 20px;
+    transition: all 0.3s ease;
+}
+
+.form-buscar-barril input[type="text"]:focus {
+    border-color: #007bff;
+    outline: none;
+    box-shadow: 0 0 5px rgba(0, 123, 255, 0.5);
+}
+
+.form-buscar-barril button[type="submit"] {
+    width: 100%;
+    padding: 14px;
+    font-size: 18px;
+    font-weight: bold;
+    color: #fff;
+    background-color: #007bff;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.form-buscar-barril button[type="submit"]:hover {
+    background-color: #0056b3;
+}
+
+/* Ajustes para la visualización móvil */
+@media screen and (max-width: 600px) {
+    .form-buscar-barril {
+        padding: 15px;
+        width: 90%;
+    }
+    .form-buscar-barril label {
+        font-size: 14px;
+    }
+    .form-buscar-barril input[type="text"],
+    .form-buscar-barril button[type="submit"] {
+        font-size: 16px;
+    }
+}
+
+.form-modificar {
+    display: flex;
+    flex-direction: column;
+    background: #a0a0a0; /* Mismo fondo que en agregar, para mantener consistencia */
+    padding: 20px;
+    border-radius: 10px;
+    width: 100%;
+    max-width: 400px; /* Mantener el mismo ancho máximo que en agregar */
+    height: auto; /* Ajuste dinámico en altura */
+    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.2); /* Sombra similar */
+    text-align: center;
+    overflow-y: auto;
+}
+
+.form-modificar h2 {
+    font-size: 60px;
+    color: #ffffff;
+    margin-bottom: 15px;
+    text-align: center;
+}
+
+/* Formulario de edición */
+#formulario-edicion {
+    margin-top: 30px;
+}
+
+#formulario-edicion h3 {
+    font-size: 20px;
+    color: #333;
+    margin-bottom: 20px;
+}
+
+#formulario-edicion form {
+    display: flex;
+    flex-direction: column;
+}
+
+#formulario-edicion label {
+    font-size: 16px;
+    margin-bottom: 8px;
+    color: #333;
+}
+
+#formulario-edicion select {
+    padding: 10px;
+    margin-bottom: 15px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    font-size: 16px;
+}
+
+#formulario-edicion button {
+    background-color: #007bff;
+    color: white;
+    border: none;
+    padding: 12px 20px;
+    border-radius: 4px;
+    font-size: 16px;
+    cursor: pointer;
+}
+
+#formulario-edicion button:hover {
+    background-color: #0056b3;
+}
+.contenedor-modificar {
+    width: 80%;
+    max-width: 800px;
+    margin: 30px auto;
+    padding: 20px;
+    background-color: white;
+    border-radius: 8px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+}
+.venta{
+    color: #000000;
+}

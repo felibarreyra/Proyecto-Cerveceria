@@ -1,0 +1,32 @@
+<?php
+require_once './config/database.php';
+
+class lugarModel {
+    private $db;
+
+    public function __construct() {
+        // Crear una instancia de la clase Database para obtener la conexión
+        $database = new Database();
+        $this->db = $database->connect();  // Usar el método connect() para obtener la conexión PDO
+    }
+
+    public function getAllLugares() {
+        $query = $this->db->prepare('SELECT * FROM lugar');
+        $query->execute();
+        $lugares = $query->fetchAll(PDO::FETCH_OBJ);
+        
+        // Verifica si la consulta devolvió datos
+        if (empty($lugares)) {
+            // Si no hay datos, se puede manejar el error o devolver un arreglo vacío
+            return [];
+        }
+        
+        return $lugares;
+    }
+    public function addLugar($nombre) {
+        $query = $this->db->prepare('INSERT INTO lugar (nombre)VALUES (?)');
+        return $query->execute([$nombre]);
+    }
+
+
+}
