@@ -14,30 +14,25 @@ class BarrilController {
     public function insertarBarril() {
         if ($_SERVER["REQUEST_METHOD"] === "POST") {
             $codigo = filter_input(INPUT_POST, 'codigo', FILTER_SANITIZE_STRING);
-            $id_variedad = filter_input(INPUT_POST, 'id_variedad', FILTER_VALIDATE_INT);
-            $id_lugar = filter_input(INPUT_POST, 'id_lugar', FILTER_VALIDATE_INT);
+            $id_variedad = 4;
+            $id_lugar = 4;
             $litros = filter_input(INPUT_POST, 'litros', FILTER_VALIDATE_INT);
-            $estado = in_array($_POST['estado'], ['LLENO', 'VACIO', 'EN USO']) ? $_POST['estado'] : null;
+            $estado = 'VACIO';
 
-            // Verificar si algún dato es inválido o está vacío
-            if (!$codigo || !$id_variedad || !$id_lugar || !$litros || !$estado) {
-                $lugar = $this->barrilModel->obtenerNombreLugar($id_lugar);
-                $redirect = ($lugar === "CAMARA") ? 'listar_barrilescamara.php' : 'listar_ventas.php';
-                header("Location: ./$redirect?mensaje=dato_incompleto");
-                exit();
+           // Verificar si algún dato es inválido o está vacío
+        if (!$codigo || !$id_variedad || !$id_lugar || !$litros || !$estado) {
+            header("Location: ./listar_barriles_vacios.php?mensaje=dato_incompleto");
+         exit();
             }
 
             // Intentar insertar el barril en la base de datos
-            if ($this->barrilModel->insertarBarril($codigo, $id_variedad, $id_lugar, $litros, $estado)) {
-                $lugar = $this->barrilModel->obtenerNombreLugar($id_lugar);
-                $redirect = ($lugar === "CAMARA") ? 'listar_barrilescamara.php' : 'listar_ventas.php';
-                header("Location: ./$redirect?mensaje=exito");
-            } else {
-                $lugar = $this->barrilModel->obtenerNombreLugar($id_lugar);
-                $redirect = ($lugar === "CAMARA") ? 'listar_barrilescamara.php' : 'listar_ventas.php';
-                header("Location: ./$redirect?mensaje=error");
-            }
-            exit();
+        if ($this->barrilModel->insertarBarril($codigo, $id_variedad, $id_lugar, $litros, $estado)) {
+        header("Location: ./listar_barriles_vacios.php?mensaje=exito");
+        } else {
+        header("Location: ./listar_barriles_vacios.php?mensaje=error");
+        }
+        exit();
+
         }
     }
 
