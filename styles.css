@@ -667,4 +667,9 @@ h2.stock{
     outline: none; /* Quita el borde de enfoque */
     box-shadow: 0 0 5px rgba(255, 0, 0, 0.7); /* Resalta el botón al hacer focus */
 }
-
+.camara{
+    background-image: url('./img/fondocamara.jpg');
+    background-size: cover;
+    background-position: center;
+    background-attachment: fixed;
+}

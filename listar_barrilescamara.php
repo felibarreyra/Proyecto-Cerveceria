@@ -20,6 +20,7 @@
 
         <!-- Barra de navegación --> 
         <?php include './views/nav.php'; ?>
+        <section class="camara">
 
         <?php $controller= new BarrilController();
         $barriles=$controller->getBarriles();?>
@@ -42,6 +43,7 @@
 
         <h2 class="stock">Stock en Camara</h2>
         <section class="contenedor-lista">
+        <h2 class="stock">Stock en Camara</h2>
         <?php
         if (isset($_GET['mensaje'])) {
             $mensaje = $_GET['mensaje'];
@@ -121,6 +123,7 @@
             <p class="mensaje-vacio">No hay barriles registrados.</p>
         <?php endif; ?>
     </div>
+</section>
 </section>
 
         <!-- contenedor --> 
