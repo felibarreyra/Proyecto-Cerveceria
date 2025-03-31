@@ -65,33 +65,28 @@ class BarrilController {
             $id_variedad = filter_input(INPUT_POST, 'id_variedad', FILTER_VALIDATE_INT);
             $id_lugar = filter_input(INPUT_POST, 'id_lugar', FILTER_VALIDATE_INT);
             $litros = filter_input(INPUT_POST, 'litros', FILTER_VALIDATE_INT);
-            $estado = in_array($_POST['estado'], ['LLENO', 'VACIO', 'EN USO']) ? $_POST['estado'] : null;
-            $fecha_venta = date('Y-m-d'); // Solo fecha con año, mes y día
-
-
-
-            if (!$codigo || !$id_variedad || !$id_lugar || !$litros || !$estado||!$fecha_venta) {
-                header("Location: ./actualizarbarril.php?codigo=$codigo&mensaje=dato_incompleto");
+            $estado = filter_input(INPUT_POST, 'estado', FILTER_SANITIZE_STRING);
+            $fecha_venta = date("Y-m-d"); // Si es necesario para ventas
+    
+            $result = $this->barrilModel->modificarBarrilPorCodigo($codigo, $id_variedad, $id_lugar, $litros, $estado, $fecha_venta);
+            if ($result) {
+                // Obtener el nombre del lugar utilizando la función obtenerNombreLugar
+                $nombre_lugar = $this->barrilModel->obtenerNombreLugar($id_lugar);
+            
+                // Verificar el lugar del barril y redirigir según corresponda
+                if ($nombre_lugar == 'CAMARA') {
+                    // Redirigir a la página de lista de barriles en cámara
+                    header("Location: ./listar_barrilescamara.php?mensaje=exito");
+                } else {
+                    // Redirigir a la página de lista de ventas
+                    header("Location: ./listar_ventas.php?mensaje=exito");
+                }
+                exit();
+            } else {
+                // Si hubo un error en la actualización, redirigir con mensaje de error
+                header("Location: ./listar_barriles.php?mensaje=error");
                 exit();
             }
-
-            if ($this->barrilModel->modificarBarrilPorCodigo($codigo, $id_variedad, $id_lugar, $litros, $estado,$fecha_venta)) {
-                $lugar = $this->barrilModel->obtenerNombreLugar($id_lugar);
-
-                // Redirigir según el estado
-                if ($estado === "VACIO") {
-                    $redirect = 'listar_barriles_vacios.php';
-                } elseif ($lugar === "CAMARA") {
-                    $redirect = 'listar_barrilescamara.php';
-                } else {
-                    $redirect = 'listar_ventas.php';
-                }
-
-                header("Location: ./$redirect?mensaje=exito");
-            } else {
-                header("Location: ./actualizarbarril.php?codigo=$codigo&mensaje=error");
-            }
-            exit();
         }
     }
     

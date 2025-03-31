@@ -1,6 +1,4 @@
 
-</body>
-</html>
 <h2 class="addbarril">AGREGAR BARRIL</h2>
 
 <section class="section-agregar">

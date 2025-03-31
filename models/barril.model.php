@@ -184,14 +184,13 @@ class Barril {
         return $stmt->fetch(PDO::FETCH_OBJ);
     }
     
-    public function modificarBarril($id_barril, $codigo, $id_variedad, $id_lugar, $litros, $estado,$fecha_venta) {
-        // Ajustar la consulta SQL para actualizar todos los campos relevantes
+    public function modificarBarril($id_barril, $codigo, $id_variedad, $id_lugar, $litros, $estado, $fecha_venta) {
         $sql = "UPDATE barriles SET codigo = ?, id_variedad = ?, id_lugar = ?, litros = ?, estado = ?, fecha_venta=? WHERE id_barril = ?";
         $stmt = $this->db->prepare($sql);
     
-        // Ejecutar la consulta con los parámetros correspondientes
-        return $stmt->execute([$codigo, $id_variedad, $id_lugar, $litros, $estado,$fecha_venta, $id_barril]);
+        return $stmt->execute([$codigo, $id_variedad, $id_lugar, $litros, $estado, $fecha_venta, $id_barril]);
     }
+    
     
     public function obtenerBarrilesPorEstado($estado) {
         $sql = "SELECT * FROM barriles WHERE estado = :estado";
@@ -248,5 +247,25 @@ class Barril {
         
         return $resultado ? $resultado->fecha_venta : null;
     }
+    function vaciarBarril($codigo) {
+        // Verificar si el código es válido
+        if (empty($codigo)) {
+            return false;  // Si el código es vacío, retornar false
+        }
+        
+        // Consulta SQL para actualizar el estado del barril
+        $sql = "UPDATE barriles SET estado='VACIO' WHERE codigo=?";
+        
+        // Preparar la consulta
+        $stmt = $this->db->prepare($sql);
+    
+        // Ejecutar la consulta y verificar si tuvo éxito
+        if ($stmt->execute([$codigo])) {
+            return true;  // Si la consulta se ejecutó correctamente, retornar true
+        } else {
+            return false; // Si hubo un error en la ejecución, retornar false
+        }
+    }
+    
 }
 ?>

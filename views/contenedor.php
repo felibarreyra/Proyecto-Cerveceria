@@ -24,6 +24,11 @@
                 </a>
             </div>
             <div class="btn">
+                <a href="listar_barriles_vacios.php">
+                    <button class="button">ZONA DE VACIOS</button>
+                </a>
+            </div>
+            <div class="btn">
                 <a href="./actualizarbarril.php">
                 <button class="button">MODIFICAR BARRILES</button>
                 </a>
@@ -36,11 +41,6 @@
             <div class="btn">
                 <a href="listar_ventas.php">
                     <button class="button">VER VENTAS</button>
-                </a>
-            </div>
-            <div class="btn">
-                <a href="listar_barriles_vacios.php">
-                    <button class="button">ZONA DE VACIOS</button>
                 </a>
             </div>
         </div>

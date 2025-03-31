@@ -252,11 +252,6 @@ body{
     height: 150px;
 }
 
-.contenedor-form{
-    background-color: #585858;
-    margin-left: 20px;
-    flex-direction: column;
-}
 .addbarril{
     text-align: center;
     color: #fff;
@@ -335,7 +330,6 @@ footer {
     display: flex;
     justify-content: center; /* Centra horizontalmente */
     align-items: center; /* Centra verticalmente */
-    height: 100vh; /* Hace que la sección ocupe toda la altura de la pantalla */
 }
 h2.stock{
     color: #ffffff;
@@ -343,17 +337,6 @@ h2.stock{
     font-size: 30px;
 }
 
-.contenedor-form {
-    background: #a0a0a0; /* Color de fondo */
-    padding: 20px;
-    border-radius: 10px; /* Bordes redondeados */
-    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.2); /* Sombra ligera */
-    width: 100%;
-    max-width: 400px; /* Ancho máximo */
-    height: 600px;
-    text-align: center; /* Centra el texto dentro del formulario */
-    overflow-y: auto; /* Esto habilita el scroll vertical */
-}
 
 
 .btn-borrar {
@@ -645,7 +628,43 @@ h2.stock{
     background-color: white;
     border-radius: 8px;
     box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+    height: 400px;
 }
 .venta{
     color: #000000;
 }
+.contenedor-form {
+    background: #a0a0a0;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.2);
+    width: 100%;
+    max-width: 400px;
+    text-align: center;
+    overflow-y: auto;
+}
+.btn-vaciar {
+    background-color: #FF4D4D; /* Rojo para dar la sensación de alerta */
+    color: white;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    font-size: 16px;
+    cursor: pointer;
+    transition: background-color 0.3s, transform 0.2s;
+}
+
+.btn-vaciar:hover {
+    background-color: #FF1A1A; /* Un rojo más oscuro para el hover */
+    transform: scale(1.05); /* Aumenta el tamaño ligeramente al pasar el ratón */
+}
+.btn-vaciar:active {
+    background-color: #E60000; /* Rojo más fuerte cuando se hace clic */
+    transform: scale(1); /* Mantiene el tamaño original */
+}
+
+.btn-vaciar:focus {
+    outline: none; /* Quita el borde de enfoque */
+    box-shadow: 0 0 5px rgba(255, 0, 0, 0.7); /* Resalta el botón al hacer focus */
+}
+

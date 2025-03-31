@@ -10,7 +10,7 @@ require_once __DIR__ . '/controllers/lugar.controller.php';
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Sistema de barriles</title>
-    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="./styles.css">
     <link href="https://fonts.googleapis.com/css2?family=Roboto+Condensed:wght@100..900&display=swap" rel="stylesheet">
 </head>
 <body>
@@ -50,7 +50,7 @@ require_once __DIR__ . '/controllers/lugar.controller.php';
     <?php if ($barril): ?>
         <div id="formulario-vaciar">
             <h3>Vaciar Barril Código: <?= htmlspecialchars($barril->codigo) ?></h3>
-            <form action="eliminarUnbarril.php" method="POST">
+            <form action="vaciarBarril.php" method="POST">
                 <input type="hidden" name="codigo" value="<?= htmlspecialchars($barril->codigo) ?>">
                 <button type="submit" class="btn-vaciar">Vaciar Barril</button>
             </form>
@@ -63,36 +63,42 @@ require_once __DIR__ . '/controllers/lugar.controller.php';
                 <input type="hidden" name="codigo" value="<?= htmlspecialchars($barril->codigo) ?>">
 
                 <label for="variedad">Variedad:</label>
-                <select name="id_variedad" id="variedad">
-                    <?php foreach ($variedades as $variedad): ?>
-                        <option value="<?= $variedad->id_variedad ?>" <?= $variedad->id_variedad == $barril->id_variedad ? 'selected' : '' ?>>
+            <select name="id_variedad" id="variedad">
+                <?php foreach ($variedades as $variedad): ?>
+                    <?php if ($variedad->nombre != 'VACIO'): ?>
+                        <option value="<?= $variedad->id_variedad ?>" 
+                            <?= $variedad->id_variedad == $barril->id_variedad ? 'selected' : '' ?>>
                             <?= htmlspecialchars($variedad->nombre) ?>
                         </option>
-                    <?php endforeach; ?>
-                </select>
+                    <?php endif; ?>
+                <?php endforeach; ?>
+            </select>
 
-                <label for="litros">Litros:</label>
-                <select name="litros" id="litros">
-                    <option value="20" <?= $barril->litros == 20 ? 'selected' : '' ?>>20L</option>
-                    <option value="30" <?= $barril->litros == 30 ? 'selected' : '' ?>>30L</option>
-                    <option value="50" <?= $barril->litros == 50 ? 'selected' : '' ?>>50L</option>
-                </select>
+            <label for="litros">Litros:</label>
+            <select name="litros" id="litros">
+                <?php if ($barril): ?>
+                    <option value="<?= $barril->litros ?>" selected><?= $barril->litros ?>L</option>
+                <?php endif; ?>
+            </select>
+
 
                 <label for="estado">Estado:</label>
                 <select name="estado" id="estado">
                     <option value="LLENO" <?= $barril->estado == 'LLENO' ? 'selected' : '' ?>>LLENO</option>
                     <option value="EN USO" <?= $barril->estado == 'EN USO' ? 'selected' : '' ?>>EN USO</option>
-                    <option value="VACIO" <?= $barril->estado == 'VACIO' ? 'selected' : '' ?>>VACIO</option>
                 </select>
 
                 <label for="lugar">Lugar:</label>
-                <select name="id_lugar" id="lugar">
-                    <?php foreach ($lugares as $lugar): ?>
-                        <option value="<?= $lugar->id_lugar ?>" <?= $lugar->id_lugar == $barril->id_lugar ? 'selected' : '' ?>>
+            <select name="id_lugar" id="lugar">
+                <?php foreach ($lugares as $lugar): ?>
+                    <?php if ($lugar->nombre != 'ZONA_VACIOS'): ?>
+                        <option value="<?= $lugar->id_lugar ?>" 
+                            <?= $lugar->id_lugar == $barril->id_lugar ? 'selected' : '' ?>>
                             <?= htmlspecialchars($lugar->nombre) ?>
                         </option>
-                    <?php endforeach; ?>
-                </select>
+                    <?php endif; ?>
+                <?php endforeach; ?>
+            </select>
 
                 <button type="submit" class="btn-guardar">Guardar Cambios</button>
             </form>
