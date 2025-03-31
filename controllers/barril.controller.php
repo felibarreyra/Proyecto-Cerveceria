@@ -113,5 +113,22 @@ class BarrilController {
     public function getFechaByCodigo($codigo) {
         return $this->barrilModel->getFechaByCodigo($codigo);
     }
+
+   // Controller: getNombre
+public function getNombre($id_lugar) {
+    // Llamamos a la función que obtiene el nombre del lugar
+    return $this->barrilModel->obtenerNombreLugar($id_lugar);
+}
+
+
+    public function getBarrilesPorClienteYFecha($cliente, $fecha) {
+        // Llamar a la función del modelo para obtener los barriles filtrados por cliente y fecha
+        return $this->barrilModel->getBarrilesPorClienteYFecha($cliente, $fecha);
+    }
+
+    public function getVariedadPorId($id_variedad){
+        return $this->barrilModel->getVariedadPorId($id_variedad);
+    }
+    
     
 }

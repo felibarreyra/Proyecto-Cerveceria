@@ -20,6 +20,7 @@ session_start(); // Asegúrate de que la sesión esté iniciada
     <!-- Barra de navegación --> 
     <?php include './views/nav.php'; ?>
 
+    <section class="agregar">
 
     <!-- contenedor del formulario -->
     <?php
@@ -37,7 +38,7 @@ session_start(); // Asegúrate de que la sesión esté iniciada
     // Incluir la vista del formulario
     include './views/formagregar.php';
     ?>
-
+</section>
     <?php include './views/footer.php'; ?>
 
 </body>

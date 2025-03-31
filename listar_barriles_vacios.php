@@ -22,9 +22,10 @@ $barrilesVacios = $controller->getBarrilesPorEstado('VACIO');
 
     <!-- Barra de navegación --> 
     <?php include './views/nav.php'; ?>
+<section class="vacios">
 
     <section class="contenedor-lista">
-        <h2 class="stock">Barriles Vacíos</h2>
+        <h2 class="barriles_vacios">Barriles Vacíos</h2>
 
         <?php
         // Mensaje de éxito o error si existe
@@ -58,6 +59,7 @@ $barrilesVacios = $controller->getBarrilesPorEstado('VACIO');
             <?php endif; ?>
         </div>
     </section>
+</section>
 
     <?php include './views/footer.php'; ?>
 

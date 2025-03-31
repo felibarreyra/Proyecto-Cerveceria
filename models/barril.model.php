@@ -218,17 +218,26 @@ class Barril {
         
         return $stmt->fetch(PDO::FETCH_OBJ);
     }
-    public function obtenerNombreLugar($id_lugar) {
+   // Model: obtenerNombreLugar
+public function obtenerNombreLugar($id_lugar) {
+    try {
         $sql = "SELECT nombre FROM lugar WHERE id_lugar = :id_lugar LIMIT 1";
         $stmt = $this->db->prepare($sql);
         $stmt->bindParam(':id_lugar', $id_lugar, PDO::PARAM_INT);
-        
-        if ($stmt->execute()) {
-            $lugar = $stmt->fetch(PDO::FETCH_ASSOC);
-            return $lugar ? $lugar['nombre'] : null;
-        }
-        return null;
+
+        // Ejecutamos la consulta
+        $stmt->execute();
+
+        // Comprobamos si se encontró el lugar
+        $lugar = $stmt->fetch(PDO::FETCH_ASSOC);
+        return $lugar ? $lugar['nombre'] : null; // Si no hay lugar, retorna null
+    } catch (PDOException $e) {
+        // Si hay un error de base de datos, lo mostramos (en producción, usa un sistema de logs)
+        echo 'Error: ' . $e->getMessage();
+        return null; // Retorna null en caso de error
     }
+}
+
 
     // Modificar el barril por código
     public function modificarBarrilPorCodigo($codigo, $id_variedad, $id_lugar, $litros, $estado, $fecha_venta) {
@@ -265,6 +274,41 @@ class Barril {
         } else {
             return false; // Si hubo un error en la ejecución, retornar false
         }
+    }
+    public function getBarrilesPorClienteYFecha($cliente, $fecha) {
+        $sql = "
+            SELECT 
+                barril.codigo, 
+                barril.litros, 
+                variedades.id_variedad,
+                variedades.nombre AS variedad, 
+                variedades.precio_x_litro
+            FROM barriles AS barril
+            INNER JOIN variedades ON barril.id_variedad = variedades.id_variedad
+            WHERE barril.id_lugar = :cliente 
+            AND DATE(barril.fecha_venta) = :fecha
+        ";
+    
+        $stmt = $this->db->prepare($sql);
+        $stmt->bindParam(':cliente', $cliente, PDO::PARAM_INT);
+        $stmt->bindParam(':fecha', $fecha, PDO::PARAM_STR);
+        
+        if ($stmt->execute()) {
+            return $stmt->fetchAll(PDO::FETCH_OBJ);
+        }
+    
+        return [];
+    }
+    
+    public function getVariedadPorId($id_variedad) {
+        // Suponiendo que estás utilizando PDO para la base de datos
+        $sql = "SELECT * FROM variedades WHERE id_variedad = :id_variedad";
+        $stmt = $this->db->prepare($sql);
+        $stmt->bindParam(':id_variedad', $id_variedad, PDO::PARAM_INT);
+        $stmt->execute();
+    
+        // Si se encuentra la variedad, devolverla, de lo contrario devolver false
+        return $stmt->fetch(PDO::FETCH_OBJ);
     }
     
 }

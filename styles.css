@@ -147,9 +147,10 @@ body{
     height: 1000px; /* Ocupar toda la altura */
     margin-top: 0px;
     background-image: url('./img/fondoo.jpg');  /* Asegúrate de que la ruta sea correcta */
-    background-size: cover;
-    background-position: center center;
+    background-position: right;
     background-attachment: fixed;
+    background-size: cover;
+    background-repeat: no-repeat;
 }
 
 /* Sección Izquierda (Slider) */
@@ -210,6 +211,7 @@ body{
     justify-content: center;
     text-align: center;
     margin-right: 200px;
+    
 }
 
 /* Texto */
@@ -260,7 +262,7 @@ body{
 /* Formulario de Agregar Barril */
 .form-agregar {
     display: block;
-    background-color: #585858;
+    background-color: #ffffff;
     padding: 20px;
     border-radius: 10px;
     width: 100%;
@@ -426,11 +428,13 @@ h2.stock{
 /* Contenedor principal */
 .contenedor-lista {
     max-width: 800px;
-    margin: 20px auto;
     padding: 20px;
     background: #f9f9f9;
     border-radius: 10px;
     box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+    align-items: center;
+    margin-left: 25%;
+    align-content: center;
 }
 
 .lista-barriles {
@@ -628,20 +632,21 @@ h2.stock{
     background-color: white;
     border-radius: 8px;
     box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
-    height: 400px;
 }
 .venta{
     color: #000000;
+    text-align: center;
 }
 .contenedor-form {
-    background: #a0a0a0;
+    background: #ffffff;
     padding: 20px;
     border-radius: 10px;
     box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.2);
-    width: 100%;
-    max-width: 400px;
+    width: 800px;
+    height: 350px;
     text-align: center;
-    overflow-y: auto;
+    overflow-y: hidden;
+    margin-top: 50px;
 }
 .btn-vaciar {
     background-color: #FF4D4D; /* Rojo para dar la sensación de alerta */
@@ -672,4 +677,130 @@ h2.stock{
     background-size: cover;
     background-position: center;
     background-attachment: fixed;
+    height: 900px;
+    align-items: center;
+
 }
+.barriles_vacios{
+    color: #000000;
+    text-align: center;
+}
+
+.agregar {
+background-image: url('./img/fondoagregar.jpg');
+background-size: cover;
+ background-position: center; 
+ background-attachment: fixed;
+ height: 900px;
+}
+
+.modificar{
+    height: 900px;
+}
+.ventas-container{
+    height: 1300px;
+}
+.vacios{
+    height: 900px;
+}
+.btn-generar {
+    background-color: #007bff; /* Azul brillante */
+    color: white; /* Texto en blanco */
+    border: none;
+    padding: 10px 20px;
+    font-size: 16px;
+    font-weight: bold;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s, transform 0.2s;
+}
+
+.btn-generar:hover {
+    background-color: #0056b3; /* Azul más oscuro */
+    transform: scale(1.05); /* Pequeño efecto de crecimiento */
+}
+
+.btn-generar:active {
+    background-color: #00408a;
+    transform: scale(0.95);
+}
+.remito-container {
+    max-width: 800px;
+    margin: 20px auto;
+    padding: 20px;
+    background-color: #f9f9f9;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    font-family: Arial, sans-serif;
+}
+
+/* Título principal */
+.remito-title {
+    font-size: 24px;
+    font-weight: bold;
+    color: #333;
+    text-align: center;
+    margin-bottom: 10px;
+}
+
+/* Información general del remito (cliente, fecha) */
+.remito-info {
+    font-size: 16px;
+    color: #555;
+    margin: 5px 0;
+}
+
+/* Título de los barriles */
+.barriles-title {
+    font-size: 20px;
+    font-weight: bold;
+    color: #333;
+    margin-top: 20px;
+}
+
+/* Lista de barriles */
+.barriles-list {
+    list-style-type: none;
+    padding: 0;
+}
+
+.barril-item {
+    font-size: 14px;
+    color: #444;
+    margin: 5px 0;
+    padding: 8px;
+    background-color: #e9ecef;
+    border-radius: 4px;
+}
+
+/* Mensaje cuando no se encuentran barriles */
+.no-barriles {
+    font-size: 16px;
+    color: #d9534f;
+    font-weight: bold;
+    text-align: center;
+}
+
+/* Botón para generar PDF */
+.btn-generarPDF {
+    display: block;
+    width: 100%;
+    padding: 12px;
+    background-color: #5cb85c;
+    color: white;
+    font-size: 16px;
+    font-weight: bold;
+    text-align: center;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    margin-top: 20px;
+    transition: background-color 0.3s;
+}
+
+.btn-generar:hover {
+    background-color: #4cae4c;
+}
+
+    
+

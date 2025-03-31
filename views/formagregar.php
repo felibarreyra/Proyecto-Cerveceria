@@ -1,8 +1,7 @@
 
-<h2 class="addbarril">AGREGAR BARRIL</h2>
-
 <section class="section-agregar">
    <div class="contenedor-form">
+   <h2 class="venta">AGREGAR BARRIL</h2>
        <form action="./procesarbarril.php" method="POST" class="form-agregar">
            <?php if (isset($_GET['mensaje']) && $_GET['mensaje'] == 'error') : ?>
                <p style="color: red;">Error al agregar el barril. Por favor, intente de nuevo.</p>

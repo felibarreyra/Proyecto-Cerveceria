@@ -20,6 +20,7 @@ require_once __DIR__ . '/controllers/lugar.controller.php';
 
     <!-- Barra de navegación -->
     <?php include './views/nav.php'; ?>
+    <section class="modificar">
 
     <?php
     $controllerVariedades = new variedadController();
@@ -37,7 +38,7 @@ require_once __DIR__ . '/controllers/lugar.controller.php';
     ?>
 
    <section class="contenedor-modificar">
-    <h2 class="stock">Modificar Barril</h2>
+    <h2 class="venta">Modificar Barril</h2>
 
     <!-- Formulario para buscar barril por código -->
     <form method="POST" class="form-buscar-barril">
@@ -108,7 +109,7 @@ require_once __DIR__ . '/controllers/lugar.controller.php';
     <?php endif; ?>
 </section>
 
-
+</section>
     <!-- Footer -->
     <?php include './views/footer.php'; ?>
 

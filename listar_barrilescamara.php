@@ -41,9 +41,8 @@
         $barriles = $controller->getBarrilesFiltradosCamara($variedad, $codigo, $litros);
          ?>
 
-        <h2 class="stock">Stock en Camara</h2>
         <section class="contenedor-lista">
-        <h2 class="stock">Stock en Camara</h2>
+        <h2 class="venta">Stock en Camara</h2>
         <?php
         if (isset($_GET['mensaje'])) {
             $mensaje = $_GET['mensaje'];
@@ -123,8 +122,9 @@
             <p class="mensaje-vacio">No hay barriles registrados.</p>
         <?php endif; ?>
     </div>
+    </section>
 </section>
-</section>
+
 
         <!-- contenedor --> 
         <?php include './views/footer.php'; ?>

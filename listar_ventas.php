@@ -38,6 +38,7 @@
     // Llamamos al controlador y pasamos los filtros obtenidos
     $barriles = $controller->getBarrilesFiltradosVentas($variedad, $codigo, $litros, $lugar);
     ?>
+    <section class="ventas-container">
 
     <section class="contenedor-lista">
         <h2 class="venta">Ventas</h2>
@@ -94,7 +95,7 @@
                 <select name="lugar" id="lugar">
                     <option value="">--Seleccionar--</option>
                     <?php foreach ($lugares as $lugar): ?>
-                        <?php if ($lugar->nombre != 'CAMARA'): ?>  <!-- Excluir lugar 'Cámara' -->
+                        <?php if ($lugar->nombre != 'CAMARA' && $lugar->nombre != 'ZONA_VACIOS'  ): ?>  <!-- Excluir lugar 'Cámara' -->
                             <option value="<?= $lugar->id_lugar ?>" <?= isset($_GET['lugar']) && $_GET['lugar'] == $lugar->id_lugar ? 'selected' : '' ?>>
                                 <?= htmlspecialchars($lugar->nombre) ?>
                             </option>
@@ -133,7 +134,27 @@
                 <p class="mensaje-vacio">No hay barriles registrados.</p>
             <?php endif; ?>
         </div>
+        <!-- Aquí está el botón para redirigir a la página de "Generar Remito" -->
+        <form action="generar_remito.php" method="POST">
+    <label for="cliente">Cliente:</label>
+    <select name="cliente" id="cliente" required>
+        <option value="">--Seleccionar Cliente--</option>
+        <?php foreach ($lugares as $lugar): ?>
+            <?php if ($lugar->nombre != 'CAMARA' && $lugar->nombre != 'ZONA_VACIOS'): ?>
+                <option value="<?= $lugar->id_lugar ?>"><?= htmlspecialchars($lugar->nombre) ?></option>
+            <?php endif; ?>
+        <?php endforeach; ?>
+    </select>
+
+    <label for="fecha">Fecha:</label>
+    <input type="date" name="fecha" id="fecha" required>
+
+    <button type="submit" class="btn-generar">Generar Remito</button>
+</form>
+
+
     </section>
+</section>
 
     <!-- contenedor --> 
     <?php include './views/footer.php'; ?>
