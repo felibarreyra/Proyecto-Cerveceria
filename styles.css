@@ -214,12 +214,43 @@ body{
     
 }
 
-/* Texto */
 .right-section h2 {
-    color: #fff;
-    font-size: 28px;
-    margin-bottom: 20px;
+    font-size: 24px;
+    font-weight: bold;
+    text-transform: uppercase;
+    text-align: center;
+    color: rgb(0, 0, 0); /* Texto blanco para contraste */
+    background: linear-gradient(135deg, 
+        #ff69b4, /* Rosa */
+        #ffd700, /* Amarillo */
+        #32cd32, /* Verde */
+        #ffffff, /* Blanco */
+        #87ceeb, /* Celeste */
+        #ff8c00, /* Naranja */
+        #ff0000  /* Rojo */
+    );
+    padding: 15px 20px;
+    border-radius: 10px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+    display: inline-block;
+    margin: 10px auto;
+    letter-spacing: 1.5px;
+    animation: colores 5s infinite linear;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
 }
+
+/* Efecto de animación para que los colores se muevan */
+@keyframes colores {
+    0% { background-position: 0% 50%; }
+    50% { background-position: 100% 50%; }
+    100% { background-position: 0% 50%; }
+}
+
+.right-section h2:hover {
+    transform: scale(1.1);
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.4);
+}
+
 
 /* Botones */
 .button-container {
@@ -433,17 +464,34 @@ h2.stock{
     border-radius: 10px;
     box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
     align-items: center;
-    margin-left: 25%;
+    margin-left: 30%;
     align-content: center;
+    margin-bottom: 250px;
 }
+.contenedor-lista-ventas {
+    max-width: 800px;
+    padding: 20px;
+    background: #f9f9f9;
+    border-radius: 10px;
+    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+    align-items: center;
+    margin-left: 30%;
+    align-content: center;
+    margin-bottom: 250px;
+}
+
 
 .lista-barriles {
     display: flex;
     flex-wrap: wrap;
     gap: 15px;
     justify-content: center;
+    max-height: 400px; /* Ajusta la altura según sea necesario */
     overflow-y: auto; /* Agrega scroll vertical si el contenido es demasiado grande */
-    overflow-x: hidden; 
+    overflow-x: hidden; /* Evita desplazamiento horizontal */
+    border: 1px solid #ccc; /* Opcional: para visualizar los límites */
+    padding: 10px;
+    
 }
 
 .barril-card {
@@ -634,6 +682,7 @@ h2.stock{
     background-color: white;
     border-radius: 8px;
     box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+    margin-bottom: 250px;
 }
 .venta{
     color: #000000;
@@ -648,7 +697,7 @@ h2.stock{
     height: 350px;
     text-align: center;
     overflow-y: hidden;
-    margin-top: 50px;
+    margin-bottom: 250px;
 }
 .btn-vaciar {
     background-color: #FF4D4D; /* Rojo para dar la sensación de alerta */
@@ -681,6 +730,7 @@ h2.stock{
     background-attachment: fixed;
     height: 900px;
     align-items: center;
+    align-content: center;
 
 }
 .barriles_vacios{
@@ -694,16 +744,33 @@ background-size: cover;
  background-position: center; 
  background-attachment: fixed;
  height: 900px;
+ align-content: center;
 }
 
 .modificar{
     height: 900px;
+    background-image: url('./img/fondovaciar.jpg');
+    background-size: cover;
+    background-position: center; 
+    background-attachment: fixed;
+    margin-top: -30px;
+    align-content: center;
 }
 .ventas-container{
     height: 1300px;
+    align-content: center;
+    background-image: url('./img/fondo\ ventas.jpg');
+    background-size: cover;
+    background-position: center; 
+    background-attachment: fixed;
 }
 .vacios{
     height: 900px;
+    align-content: center;
+    background-image: url('./img/fondovacioss.jpg');
+    background-size: cover;
+    background-position: center; 
+    background-attachment: fixed;
 }
 .btn-generar {
     background-color: #007bff; /* Azul brillante */
@@ -726,14 +793,16 @@ background-size: cover;
     background-color: #00408a;
     transform: scale(0.95);
 }
-.remito-container {
-    max-width: 800px;
-    margin: 20px auto;
+.form-remito {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    max-width: 400px;
+    margin: auto;
     padding: 20px;
+    border: 1px solid #ccc;
+    border-radius: 10px;
     background-color: #f9f9f9;
-    border-radius: 8px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-    font-family: Arial, sans-serif;
 }
 
 /* Título principal */
@@ -743,6 +812,21 @@ background-size: cover;
     color: #333;
     text-align: center;
     margin-bottom: 10px;
+}
+.campo-select,
+.campo-fecha {
+    width: 100%;
+    padding: 8px;
+    border: 1px solid #aaa;
+    border-radius: 5px;
+    font-size: 16px;
+    background-color: white;
+}
+
+.campo-select:focus,
+.campo-fecha:focus {
+    border-color: #007bff;
+    outline: none;
 }
 
 /* Información general del remito (cliente, fecha) */

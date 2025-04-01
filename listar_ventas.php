@@ -40,7 +40,7 @@
     ?>
     <section class="ventas-container">
 
-    <section class="contenedor-lista">
+    <section class="contenedor-lista-ventas">
         <h2 class="venta">Ventas</h2>
         <?php
         if (isset($_GET['mensaje'])) {
@@ -135,9 +135,12 @@
             <?php endif; ?>
         </div>
         <!-- Aquí está el botón para redirigir a la página de "Generar Remito" -->
-        <form action="generar_remito.php" method="POST">
-    <label for="cliente">Cliente:</label>
-    <select name="cliente" id="cliente" required>
+
+
+    </section>
+    <form action="generar_remito.php" method="POST" class="form-remito">
+    <label for="select-cliente">Cliente:</label>
+    <select name="cliente" id="select-cliente" required class="campo-select">
         <option value="">--Seleccionar Cliente--</option>
         <?php foreach ($lugares as $lugar): ?>
             <?php if ($lugar->nombre != 'CAMARA' && $lugar->nombre != 'ZONA_VACIOS'): ?>
@@ -146,14 +149,11 @@
         <?php endforeach; ?>
     </select>
 
-    <label for="fecha">Fecha:</label>
-    <input type="date" name="fecha" id="fecha" required>
+    <label for="input-fecha">Fecha:</label>
+    <input type="date" name="fecha" id="input-fecha" required class="campo-fecha">
 
     <button type="submit" class="btn-generar">Generar Remito</button>
 </form>
-
-
-    </section>
 </section>
 
     <!-- contenedor --> 

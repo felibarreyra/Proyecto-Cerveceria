@@ -66,7 +66,8 @@ class BarrilController {
             $id_lugar = filter_input(INPUT_POST, 'id_lugar', FILTER_VALIDATE_INT);
             $litros = filter_input(INPUT_POST, 'litros', FILTER_VALIDATE_INT);
             $estado = filter_input(INPUT_POST, 'estado', FILTER_SANITIZE_STRING);
-            $fecha_venta = date("Y-m-d"); // Si es necesario para ventas
+            date_default_timezone_set("America/Argentina/Buenos_Aires");
+            $fecha_venta = date("Y-m-d H:i:s");
     
             $result = $this->barrilModel->modificarBarrilPorCodigo($codigo, $id_variedad, $id_lugar, $litros, $estado, $fecha_venta);
             if ($result) {
