@@ -94,6 +94,9 @@ class BarrilController {
     public function getBarrilesPorEstado($estado) {
         return $this->barrilModel->obtenerBarrilesPorEstado($estado);
     }
+    public function getBarrilesVacios($estado, $litros = null){
+        return $this->barrilModel->getBarrilesFiltro($estado, $litros);
+    }
     public function getBarrilById($id_barril) {
         return $this->barrilModel->obtenerBarrilPorId($id_barril);
     }

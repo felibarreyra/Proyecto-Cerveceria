@@ -201,6 +201,24 @@ class Barril {
         // Recuperar los barriles y devolverlos
         return $stmt->fetchAll(PDO::FETCH_OBJ);
     }
+    public function getBarrilesFiltro($estado, $litros = null) {
+        $query = "SELECT * FROM barriles WHERE estado = :estado";
+        
+        if ($litros) {
+            $query .= " AND litros = :litros";
+        }
+    
+        $stmt = $this->db->prepare($query);
+        $stmt->bindParam(":estado", $estado);
+    
+        if ($litros) {
+            $stmt->bindParam(":litros", $litros);
+        }
+    
+        $stmt->execute();
+        return $stmt->fetchAll(PDO::FETCH_OBJ);
+    }
+    
     public function obtenerBarrilPorId($id_barril) {
         $sql = "SELECT * FROM barriles WHERE id_barril = :id_barril";
         $stmt = $this->db->prepare($sql);
@@ -263,7 +281,7 @@ public function obtenerNombreLugar($id_lugar) {
         }
         
         // Consulta SQL para actualizar el estado del barril
-        $sql = "UPDATE barriles SET estado='VACIO' WHERE codigo=?";
+        $sql = "UPDATE barriles SET estado='VACIO', fecha_venta=NULL WHERE codigo=?";
         
         // Preparar la consulta
         $stmt = $this->db->prepare($sql);

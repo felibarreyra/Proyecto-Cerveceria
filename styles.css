@@ -442,6 +442,8 @@ h2.stock{
     flex-wrap: wrap;
     gap: 15px;
     justify-content: center;
+    overflow-y: auto; /* Agrega scroll vertical si el contenido es demasiado grande */
+    overflow-x: hidden; 
 }
 
 .barril-card {
@@ -449,7 +451,7 @@ h2.stock{
     padding: 15px;
     border-radius: 8px;
     box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
-    width: 280px;
+    width: 200px;
     text-align: center;
 }
 
