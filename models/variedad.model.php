@@ -28,6 +28,15 @@ class Variedad {
         $query = $this->db->prepare('INSERT INTO variedades (nombre)VALUES (?)');
         return $query->execute([$nombre]);
     }
+    public function getNombreVariedad($idVariedad) {
+        $query = $this->db->prepare("SELECT nombre FROM variedades WHERE id_variedad = ?");
+        $query->execute([$idVariedad]);
+    
+        // Obtener el resultado y devolverlo
+        $resultado = $query->fetch(PDO::FETCH_ASSOC);
+        return $resultado ? $resultado['nombre'] : null;
+    }
+    
 
 
     

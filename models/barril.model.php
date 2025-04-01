@@ -328,6 +328,15 @@ public function obtenerNombreLugar($id_lugar) {
         // Si se encuentra la variedad, devolverla, de lo contrario devolver false
         return $stmt->fetch(PDO::FETCH_OBJ);
     }
+    // Método del controlador BarrilController
+public function obtenerBarrilesEnCamaraPorFechas($fecha_inicio, $fecha_fin) {
+    $sql = "SELECT * FROM barriles WHERE fecha_venta BETWEEN ? AND ? AND id_lugar = 1";
+    $query = $this->db->prepare($sql);
+    $query->execute([$fecha_inicio, $fecha_fin]);
+    return $query->fetchAll(PDO::FETCH_OBJ);
+}
+
+    
     
 }
 ?>

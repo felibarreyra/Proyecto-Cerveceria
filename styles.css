@@ -19,7 +19,7 @@ body{
     align-items: center;
     width: 100%;
     height: 200px;
-    background-color: #1a1a1a; /* Fondo oscuro */
+    background-color: #000000; /* Fondo oscuro */
     padding: 20px;
     transition: top 0.3s; /* Agrega una transición suave cuando se fije */
 }
@@ -466,7 +466,7 @@ h2.stock{
     align-items: center;
     margin-left: 30%;
     align-content: center;
-    margin-bottom: 250px;
+    margin-bottom: 150px;
 }
 .contenedor-lista-ventas {
     max-width: 800px;
@@ -728,7 +728,7 @@ h2.stock{
     background-size: cover;
     background-position: center;
     background-attachment: fixed;
-    height: 900px;
+    height: 1300px;
     align-items: center;
     align-content: center;
 

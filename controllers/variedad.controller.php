@@ -20,5 +20,9 @@ class variedadController {
             return;
         }
     }
+    public function getNombreVariedad($idVariedad) {
+        return $this->variedadModel->getNombreVariedad($idVariedad);
+    }
+    
 }
 ?>

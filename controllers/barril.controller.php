@@ -133,6 +133,12 @@ public function getNombre($id_lugar) {
     public function getVariedadPorId($id_variedad){
         return $this->barrilModel->getVariedadPorId($id_variedad);
     }
+    public function obtenerBarrilesEnCamaraPorFechas($fecha_inicio, $fecha_fin) {
+        // Llamamos a la función del modelo para obtener los barriles por variedad y fecha
+        $barriles = $this->barrilModel->obtenerBarrilesEnCamaraPorFechas($fecha_inicio, $fecha_fin);
+
+        return $barriles;
+    }
     
     
 }

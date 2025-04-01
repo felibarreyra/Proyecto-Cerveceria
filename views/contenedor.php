@@ -17,7 +17,6 @@
     <!-- Sección Derecha (Información y Botones) -->
     <div class="right-section">
         <h2>SISTEMA DE CONTROL DE STOCK</h2>
-       
     </div>
 
 </div>
