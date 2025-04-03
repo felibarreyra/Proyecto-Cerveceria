@@ -58,66 +58,70 @@ require_once __DIR__ . '/controllers/lugar.controller.php';
 
     <!-- Formulario para vaciar barril (si el barril se encuentra) -->
     <?php if ($barril): ?>
-        <div id="formulario-vaciar">
-            <h3>Vaciar Barril Código: <?= htmlspecialchars($barril->codigo) ?></h3>
-            <form action="vaciarBarril.php" method="POST">
-                <input type="hidden" name="codigo" value="<?= htmlspecialchars($barril->codigo) ?>">
-                <button type="submit" class="btn-vaciar">Vaciar Barril</button>
-            </form>
-        </div>
+    <div id="formulario-vaciar">
+        <h3>Vaciar Barril Código: <?= htmlspecialchars($barril->codigo) ?></h3>
+        <form action="vaciarBarril.php" method="POST">
+            <input type="hidden" name="codigo" value="<?= htmlspecialchars($barril->codigo) ?>">
+            <button type="submit" class="btn-vaciar">Vaciar Barril</button>
+        </form>
+    </div>
 
-        <!-- Formulario de edición (si se encontró el barril) -->
-        <div id="formulario-edicion">
-            <h3>Editando Barril Código: <?= htmlspecialchars($barril->codigo) ?></h3>
-            <form action="actualizar.php" method="POST">
-                <input type="hidden" name="codigo" value="<?= htmlspecialchars($barril->codigo) ?>">
+    <!-- Formulario de edición (si se encontró el barril) -->
+    <div id="formulario-edicion">
+        <h3>Editando Barril Código: <?= htmlspecialchars($barril->codigo) ?></h3>
+        <form action="actualizar.php" method="POST">
+            <input type="hidden" name="codigo" value="<?= htmlspecialchars($barril->codigo) ?>">
+            <label for="variedad">Variedad:</label>
+<select name="id_variedad" id="variedad">
+    <option value="" <?= (!$barril->id_variedad || $barril->id_variedad == 4) ?>>--Seleccionar--</option>
+    <?php foreach ($variedades as $variedad): ?>
+        <?php if ($variedad->id_variedad != 4): ?>
+            <option value="<?= $variedad->id_variedad ?>" 
+                <?= ($barril->id_variedad == $variedad->id_variedad) ?>>
+                <?= htmlspecialchars($variedad->nombre) ?>
+            </option>
+        <?php endif; ?>
+    <?php endforeach; ?>
+</select>
 
-                <label for="variedad">Variedad:</label>
-            <select name="id_variedad" id="variedad">
-                <?php foreach ($variedades as $variedad): ?>
-                    <?php if ($variedad->nombre != 'VACIO'): ?>
-                        <option value="<?= $variedad->id_variedad ?>" 
-                            <?= $variedad->id_variedad == $barril->id_variedad ? 'selected' : '' ?>>
-                            <?= htmlspecialchars($variedad->nombre) ?>
-                        </option>
-                    <?php endif; ?>
-                <?php endforeach; ?>
-            </select>
-
-            <label for="litros">Litros:</label>
-            <select name="litros" id="litros">
-                <?php if ($barril): ?>
-                    <option value="<?= $barril->litros ?>" selected><?= $barril->litros ?>L</option>
-                <?php endif; ?>
-            </select>
-
-
-                <label for="estado">Estado:</label>
-                <select name="estado" id="estado">
-                    <option value="LLENO" <?= $barril->estado == 'LLENO' ? 'selected' : '' ?>>LLENO</option>
-                    <option value="EN USO" <?= $barril->estado == 'EN USO' ? 'selected' : '' ?>>EN USO</option>
-                </select>
-
-                <label for="lugar">Lugar:</label>
-            <select name="id_lugar" id="lugar">
-                <?php foreach ($lugares as $lugar): ?>
-                    <?php if ($lugar->nombre != 'ZONA_VACIOS'): ?>
-                        <option value="<?= $lugar->id_lugar ?>" 
-                            <?= $lugar->id_lugar == $barril->id_lugar ? 'selected' : '' ?>>
-                            <?= htmlspecialchars($lugar->nombre) ?>
-                        </option>
-                    <?php endif; ?>
-                <?php endforeach; ?>
-            </select>
-
-                <button type="submit" class="btn-guardar">Guardar Cambios</button>
-            </form>
-        </div>
-    <?php elseif ($_SERVER['REQUEST_METHOD'] === 'POST'): ?>
-        <p class="mensaje-error">No se encontró el barril con ese código.</p>
+<label for="litros">Litros:</label>
+<select name="litros" id="litros">
+    <?php if ($barril): ?>
+        <option value="<?= $barril->litros ?>" selected><?= $barril->litros ?>L</option>
     <?php endif; ?>
-</section>
+</select>
 
+<label for="estado">Estado:</label>
+<select name="estado" id="estado">
+    <option value="" <?= empty($barril->estado) ?>>--Seleccionar--</option>
+    <option value="LLENO" <?= ($barril->estado == 'LLENO')?>>LLENO</option>
+    <option value="EN USO" <?= ($barril->estado == 'EN USO') ?>>EN USO</option>
+</select>
+
+<label for="lugar">Lugar:</label>
+<select name="id_lugar" id="lugar">
+    <?php foreach ($lugares as $lugar): ?>
+        <?php if ($lugar->nombre === 'CAMARA'): ?>
+            <option value="<?= $lugar->id_lugar ?>" 
+                <?= ($barril->id_lugar == $lugar->id_lugar) ? 'selected' : '' ?>>
+                <?= htmlspecialchars($lugar->nombre) ?>
+            </option>
+        <?php endif; ?>
+    <?php endforeach; ?>
+</select>
+
+
+            
+
+            <button type="submit" class="btn-guardar">Guardar Cambios</button>
+        </form>
+    </div>
+<?php elseif ($_SERVER['REQUEST_METHOD'] === 'POST'): ?>
+    <p class="mensaje-error">No se encontró el barril con ese código.</p>
+<?php endif; ?>
+
+
+</section>
 </section>
     <!-- Footer -->
     <?php include './views/footer.php'; ?>

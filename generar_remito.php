@@ -2,45 +2,44 @@
 require_once __DIR__ . '/controllers/barril.controller.php';
 require('./pdf/fpdf/fpdf.php');
 
-// Verificar si se enviaron los datos necesarios
-if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['cliente'], $_POST['fecha'])) {
-    $cliente = $_POST['cliente'];
-    $fecha = $_POST['fecha'];
+if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['fecha_inicio'], $_POST['fecha_fin'])) {
+    $cliente = $_POST['cliente'] ?? '';
+    $fechaInicio = $_POST['fecha_inicio'];
+    $fechaFin = $_POST['fecha_fin'];
 
-    // Crear el PDF
     $pdf = new FPDF();
     $pdf->AddPage();
-
-    // Agregar imagen (X, Y, Ancho, Alto)
-    $pdf->Image('./img/logo.jpg', 10, 10, 40); // Imagen en la esquina superior izquierda
-
-    // Título del remito
+    $pdf->Image('./img/logo.jpg', 10, 10, 40);
     $pdf->SetFont('Arial', 'B', 16);
     $pdf->Cell(200, 10, 'Remito de Entrega', 0, 1, 'C');
-    
-    // Espacio para evitar que la imagen tape el contenido
-    $pdf->Ln(28); // Mueve el contenido hacia abajo
+    $pdf->Ln(28);
 
-    // Información del cliente y fecha
     $pdf->SetFont('Arial', '', 12);
     $controller = new BarrilController();
-    $lugar = $controller->getNombre($cliente); // Obtener nombre del cliente
-    
-    $pdf->Cell(100, 10, 'Cliente: ' . htmlspecialchars($lugar), 0, 1);
-    $pdf->Cell(100, 10, 'Fecha: ' . htmlspecialchars($fecha), 0, 1);
-    $pdf->Ln(8); // Espaciado
 
-    // Obtener los barriles
-    $barriles = $controller->getBarrilesPorClienteYFecha($cliente, $fecha);
+    if ($cliente === 'sin_cliente') {
+        $pdf->Cell(100, 10, 'Cliente: Ventas sin cliente', 0, 1);
+        $cliente = ''; // Para que la consulta considere los barriles sin cliente
+    } elseif (!empty($cliente)) {
+        $lugar = $controller->getNombre($cliente);
+        $pdf->Cell(100, 10, 'Cliente: ' . htmlspecialchars($lugar), 0, 1);
+    } else {
+        $pdf->Cell(100, 10, 'Cliente: Todos', 0, 1);
+    }
 
-    // Encabezado de la tabla
+    $pdf->Cell(100, 10, 'Fecha Desde: ' . htmlspecialchars($fechaInicio), 0, 1);
+    $pdf->Cell(100, 10, 'Fecha Hasta: ' . htmlspecialchars($fechaFin), 0, 1);
+    $pdf->Ln(8);
+
+    // Obtener los barriles por cliente y rango de fechas
+    $barriles = $controller->getBarrilesPorClienteOFecha($cliente, $fechaInicio, $fechaFin);
+
     $pdf->SetFont('Arial', 'B', 12);
     $pdf->Cell(40, 10, 'Codigo Barril', 1, 0, 'C');
     $pdf->Cell(40, 10, 'Litros', 1, 0, 'C');
     $pdf->Cell(60, 10, 'Precio x Litro', 1, 0, 'C');
-    $pdf->Cell(50, 10, 'Precio Total', 1, 1, 'C'); // Salto de línea
+    $pdf->Cell(50, 10, 'Precio Total', 1, 1, 'C');
 
-    // Contenido de la tabla
     $pdf->SetFont('Arial', '', 10);
     $totalGeneral = 0;
 
@@ -54,15 +53,11 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['cliente'], $_POST['fe
         $pdf->Cell(50, 10, '$' . number_format($precioTotal, 2), 1, 1, 'C');
     }
 
-    // Total general
     $pdf->SetFont('Arial', 'B', 12);
-    $pdf->Cell(140, 10, 'TOTAL GENERAL', 1, 0, 'R');
+    $pdf->Cell(140, 10, 'PRECIO TOTAL (sin IVA)', 1, 0, 'R');
     $pdf->Cell(50, 10, '$' . number_format($totalGeneral, 2), 1, 1, 'C');
 
-    // Limpiar buffer de salida y generar PDF
     if (ob_get_length()) ob_end_clean();
-    $pdf->Output('D', 'remito_' . $cliente . '_' . $fecha . '.pdf');
+    $pdf->Output('D', 'remito_' . ($cliente ?: 'todos') . '_' . $fechaInicio . '_' . $fechaFin . '.pdf');
     exit;
-} else {
-    die('Acceso no permitido.');
 }

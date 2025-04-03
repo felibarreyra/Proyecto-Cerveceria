@@ -27,6 +27,13 @@ class lugarModel {
         $query = $this->db->prepare('INSERT INTO lugar (nombre)VALUES (?)');
         return $query->execute([$nombre]);
     }
+    public function obtenerNombrePorId($id_lugar) {
+        $stmt = $this->db->prepare("SELECT nombre FROM lugar WHERE id_lugar = ?");
+        $stmt->execute([$id_lugar]);
+        $resultado = $stmt->fetch(PDO::FETCH_ASSOC);
+        return $resultado ? $resultado['nombre'] : null;
+    }
+    
 
 
 }

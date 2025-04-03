@@ -1,64 +1,49 @@
-<?php require_once __DIR__ . '/controllers/barril.controller.php';?>
-<?php require_once __DIR__ . '/controllers/variedad.controller.php';?>
-<?php require_once __DIR__ . '/controllers/lugar.controller.php';?>
+<?php
+require_once __DIR__ . '/controllers/barril.controller.php';
+require_once __DIR__ . '/controllers/variedad.controller.php';
+require_once __DIR__ . '/controllers/lugar.controller.php';
+?>
 <!DOCTYPE html>
 <html lang="es">
 <head>
-<meta charset="UTF-8">
+    <meta charset="UTF-8">
     <link rel="icon" type="image/png" href="./img/logo.png">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="description" content="Sistema de control de stock y ventas para cervecería.">
     <title>Sistema de Control de Stock</title>
-    
-    <!-- Estilos -->
-    <link rel="stylesheet" href="styles.css"> <!-- Asegurar que la ruta sea correcta -->
-
-    <!-- Google Fonts -->
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Roboto+Condensed:wght@100..900&display=swap" rel="stylesheet">
-
+    <link rel="stylesheet" href="styles.css">
 </head>
 <body>
-        <!-- Header -->
-        <?php include './views/header.php'; ?>
-        
+    <?php include './views/header.php'; ?>
+    <?php include './views/nav.php'; ?>
 
-        <!-- Barra de navegación --> 
-        <?php include './views/nav.php'; ?>
-        <section class="camara">
+    <section class="camara">
+        <?php
+        $controller = new BarrilController();
+        $barriles = $controller->getBarriles();
 
-        <?php $controller= new BarrilController();
-        $barriles=$controller->getBarriles();?>
+        $controllerVariedades = new variedadController();
+        $variedades = $controllerVariedades->getAllVariedades();
 
-        <?php $controllerVariedades= new variedadController();
-        $variedades=$controllerVariedades->getAllVariedades();?>
+        $controllerLugar = new lugarController();
+        $lugares = $controllerLugar->getAllLugares();
 
-        <?php $controllerLugar= new lugarController();
-        $lugares=$controllerLugar->getAllLugares();?>
+        $variedad = $_GET['variedad'] ?? '';
+        $codigo = $_GET['codigo'] ?? '';
+        $litros = $_GET['litros'] ?? '';
 
-    <?php 
-        // Capturamos los valores de los filtros, si están disponibles en los parámetros GET
-        $variedad = isset($_GET['variedad']) ? $_GET['variedad'] : ''; // Filtro por variedad
-        $codigo = isset($_GET['codigo']) ? $_GET['codigo'] : ''; // Filtro por código (si lo tienes)
-        $litros = isset($_GET['litros']) ? $_GET['litros'] : ''; // Filtro por litros (si lo tienes)
-
-            // Llamamos al controlador y pasamos los filtros obtenidos
         $barriles = $controller->getBarrilesFiltradosCamara($variedad, $codigo, $litros);
-         ?>
+        ?>
+         <section class="contenedor-lista">
+        <h2 class="venta">Stock en Cámara</h2>
 
-        <section class="contenedor-lista">
-        <h2 class="venta">Stock en Camara</h2>
         <?php
         if (isset($_GET['mensaje'])) {
-            $mensaje = $_GET['mensaje'];
-            if ($mensaje == 'exito') {
-                echo '<p style="color: green;">Barril agregado exitosamente.</p>';
-            } elseif ($mensaje == 'error') {
-                echo '<p style="color: red;">Hubo un error al agregar el barril.</p>';
-            } elseif ($mensaje == 'dato_incompleto') {
-                echo '<p style="color: orange;">Faltan datos. Por favor, completa todos los campos.</p>';
+            if ($_GET['mensaje'] == 'exito_lugar') {
+                echo '<p style="color: green;">Barril cambiado de lugar exitosamente.</p>';
+            } elseif ($_GET['mensaje'] == 'error_lugar') {
+                echo '<p style="color: red;">Hubo un error al cambiar el barril de lugar.</p>';
             }
         }
         ?>
@@ -111,44 +96,51 @@
 </form>
 
 
-       
-
+<form action="cambiar_lugar.php" method="POST">
     <div class="lista-barriles">
-        <?php if (!empty($barriles)): ?>
-            <?php foreach ($barriles as $barril):
-                $estado = $controller->getEstadoByCodigo($barril->codigo);?>
+        <?php if (!empty($barriles)): ?>  <!-- Verifica que haya barriles antes de iterar -->
+            <?php foreach ($barriles as $barril): ?>
+                <?php 
+                    // Convertimos el estado a minúsculas para que coincida con las clases CSS
+                    $estadoClase = strtolower($barril->estado); 
+                ?>
                 <div class="barril-card">
+                    <input type="checkbox" name="barriles[]" value="<?= $barril->id_barril ?>" class="checkbox-barril">
                     <h3><?= htmlspecialchars($barril->codigo) ?></h3>
                     <p><b>VARIEDAD :</b> <?= htmlspecialchars($barril->variedad) ?></p>
                     <p><b>LITROS :</b> <?= htmlspecialchars($barril->litros) ?>L</p>
                     <p><b>ESTADO:</b> 
-                    <span class="estado <?= strtolower($estado) ?>">
-                        <?= htmlspecialchars($estado) ?>
-                     </span>
-                </p>
-                    <form action="eliminar.php" method="POST" onsubmit="return confirm('¿Seguro que quieres eliminar este barril?');">
-                        <input type="hidden" name="id_barril" value="<?= htmlspecialchars($barril->id_barril) ?>">
-                        <button type="submit" class="btn-borrar">🗑️ Borrar</button>
-                    </form>
+                     <span class="estado <?= strtolower($barril->estado) ?>">
+                    <?= htmlspecialchars($barril->estado) ?>
+                        </span>
+                    </p>
                 </div>
             <?php endforeach; ?>
-        <?php else: ?>
+        <?php else: ?>  
             <p class="mensaje-vacio">No hay barriles registrados.</p>
         <?php endif; ?>
-    </div>
- </section>
- <form action="generar_estadistica.php" method="POST" class="form-remito">
-    <label for="input-fecha-inicio">Fecha de Inicio:</label>
-    <input type="date" name="fecha_inicio" id="input-fecha-inicio" required class="campo-fecha">
+   
+            </div>
 
-    <label for="input-fecha-fin">Fecha de Fin:</label>
-    <input type="date" name="fecha_fin" id="input-fecha-fin" required class="campo-fecha">
+            <label for="lugar">Lugar:</label>
+            <select name="id_lugar" id="lugar">
+                <option value="">--Seleccionar--</option>
+                <?php foreach ($lugares as $lugar): ?>
+                    <?php if ($lugar->nombre != 'CAMARA' && $lugar->nombre != 'ZONA_VACIOS'  ): ?>
+                        <option value="<?= $lugar->id_lugar ?>"><?= htmlspecialchars($lugar->nombre) ?></option>
+                    <?php endif; ?>
+                <?php endforeach; ?>
+            </select>
 
-    <button type="submit" class="btn-generar">Generar Estadística</button>
+            <button type="submit" class="btn-generar">Vender</button>
+        </form>
+    </section>
+    <form action="generar_estadistica.php" method="POST" class="form-remito">
+    <button type="submit" class="btn-generar">Generar Estadística de Cámara</button>
 </form>
 
-</section>
-        <!-- contenedor --> 
+    </section>
+
         <?php include './views/footer.php'; ?>
 
 </body>

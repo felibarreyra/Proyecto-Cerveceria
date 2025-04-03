@@ -477,7 +477,7 @@ h2.stock{
     align-items: center;
     margin-left: 30%;
     align-content: center;
-    margin-bottom: 250px;
+    margin-bottom: 150px;
 }
 
 
@@ -748,7 +748,7 @@ background-size: cover;
 }
 
 .modificar{
-    height: 900px;
+    height: 1200px;
     background-image: url('./img/fondovaciar.jpg');
     background-size: cover;
     background-position: center; 

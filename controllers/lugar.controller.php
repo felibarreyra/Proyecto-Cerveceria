@@ -21,5 +21,9 @@ class lugarController {
             return;
         }
     }
+    public function getNombreLugarById($id_lugar) {
+        return $this->lugarModel->obtenerNombrePorId($id_lugar);
+    }
+    
 }
 

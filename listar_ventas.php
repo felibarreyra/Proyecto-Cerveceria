@@ -154,8 +154,9 @@
     </section>
     <form action="generar_remito.php" method="POST" class="form-remito">
     <label for="select-cliente">Cliente:</label>
-    <select name="cliente" id="select-cliente" required class="campo-select">
+    <select name="cliente" id="select-cliente" class="campo-select">
         <option value="">--Seleccionar Cliente--</option>
+        <option value="sin_cliente">Ventas sin cliente</option>
         <?php foreach ($lugares as $lugar): ?>
             <?php if ($lugar->nombre != 'CAMARA' && $lugar->nombre != 'ZONA_VACIOS'): ?>
                 <option value="<?= $lugar->id_lugar ?>"><?= htmlspecialchars($lugar->nombre) ?></option>
@@ -163,11 +164,43 @@
         <?php endforeach; ?>
     </select>
 
-    <label for="input-fecha">Fecha:</label>
-    <input type="date" name="fecha" id="input-fecha" required class="campo-fecha">
+    <label for="input-fecha-inicio">Fecha de Inicio:</label>
+    <input type="date" name="fecha_inicio" id="input-fecha-inicio" required class="campo-fecha">
+
+    <div id="fecha-fin-container" style="display: none;">
+        <label for="input-fecha-fin">Fecha de Fin:</label>
+        <input type="date" name="fecha_fin" id="input-fecha-fin" class="campo-fecha">
+    </div>
 
     <button type="submit" class="btn-generar">Generar Remito</button>
 </form>
+
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+        let selectCliente = document.getElementById("select-cliente");
+        let fechaFinContainer = document.getElementById("fecha-fin-container");
+        let fechaFin = document.getElementById("input-fecha-fin");
+
+        function actualizarVisibilidadFechaFin() {
+            if (selectCliente.value === "sin_cliente") {
+                fechaFinContainer.style.display = "block";
+                fechaFin.required = true;
+            } else {
+                fechaFinContainer.style.display = "none";
+                fechaFin.required = false;
+            }
+        }
+
+        // Ocultar el campo al cargar la página
+        actualizarVisibilidadFechaFin();
+
+        // Agregar evento para cambiar visibilidad al seleccionar cliente
+        selectCliente.addEventListener("change", actualizarVisibilidadFechaFin);
+    });
+</script>
+
+
+
 </section>
 
     <!-- contenedor --> 
