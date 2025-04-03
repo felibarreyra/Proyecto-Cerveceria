@@ -529,7 +529,7 @@ h2.stock{
     color: white;
 }
 
-.estado.parcial {
+.estado.en-uso {
     background: orange;
     color: white;
 }

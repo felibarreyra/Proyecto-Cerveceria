@@ -138,10 +138,6 @@
                         <p><b>LUGAR:</b> <?= htmlspecialchars($barril->lugar) ?></p>
                         <?php $fecha_venta = $controller->getFechaByCodigo($barril->codigo);?>
                         <b>FECHA DE VENTA:</b> <?= htmlspecialchars($fecha_venta) ?>
-                        <form action="eliminar.php" method="POST" onsubmit="return confirm('¿Seguro que quieres eliminar este barril?');">
-                            <input type="hidden" name="id_barril" value="<?= htmlspecialchars($barril->id_barril) ?>">
-                            <button type="submit" class="btn-borrar">🗑️ Borrar</button>
-                        </form>
                     </div>
                 <?php endforeach; ?>
             <?php else: ?>

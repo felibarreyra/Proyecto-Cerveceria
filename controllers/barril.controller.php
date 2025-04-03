@@ -8,7 +8,7 @@ class BarrilController {
 
     public function __construct() {
         $this->barrilModel = new Barril();
-        $this->lugarModel = new LugarModel();
+        $this->lugarModel = new lugarModel();
     }
 
     public function insertarBarril() {
@@ -70,26 +70,19 @@ class BarrilController {
             $fecha_venta = date("Y-m-d H:i:s");
     
             $result = $this->barrilModel->modificarBarrilPorCodigo($codigo, $id_variedad, $id_lugar, $litros, $estado, $fecha_venta);
-            if ($result) {
-                // Obtener el nombre del lugar utilizando la función obtenerNombreLugar
-                $nombre_lugar = $this->barrilModel->obtenerNombreLugar($id_lugar);
             
-                // Verificar el lugar del barril y redirigir según corresponda
-                if ($nombre_lugar == 'CAMARA') {
-                    // Redirigir a la página de lista de barriles en cámara
-                    header("Location: ./listar_barrilescamara.php?mensaje=exito");
-                } else {
-                    // Redirigir a la página de lista de ventas
-                    header("Location: ./listar_ventas.php?mensaje=exito");
-                }
+            if ($result) {
+                // Redirigir siempre a actualizarbarril.php después de modificar
+                header("Location: ./actualizarbarril.php?mensaje=exito");
                 exit();
             } else {
                 // Si hubo un error en la actualización, redirigir con mensaje de error
-                header("Location: ./listar_barriles.php?mensaje=error");
+                header("Location: ./actualizarbarril.php?mensaje=error");
                 exit();
             }
         }
     }
+    
     public function cambiarLugarBarril($id_barril, $id_lugar) {
 
         return $this->barrilModel->actualizarLugarBarril($id_barril, $id_lugar);

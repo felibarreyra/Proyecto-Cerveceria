@@ -208,6 +208,8 @@ class Barril {
             $query .= " AND litros = :litros";
         }
     
+        $query .= " ORDER BY CAST(codigo AS UNSIGNED) ASC"; // Ordena de menor a mayor
+    
         $stmt = $this->db->prepare($query);
         $stmt->bindParam(":estado", $estado);
     
@@ -218,6 +220,7 @@ class Barril {
         $stmt->execute();
         return $stmt->fetchAll(PDO::FETCH_OBJ);
     }
+    
     
     public function obtenerBarrilPorId($id_barril) {
         $sql = "SELECT * FROM barriles WHERE id_barril = :id_barril";
@@ -294,18 +297,17 @@ public function obtenerNombreLugar($id_lugar) {
         }
     }
     public function getBarrilesPorClienteOFecha($cliente, $fechaInicio, $fechaFin) {
-        $query = "SELECT b.codigo, b.litros, v.precio_x_litro 
+        $query = "SELECT b.codigo, b.litros,b.id_variedad, v.precio_x_litro 
                   FROM barriles b 
                   JOIN variedades v ON b.id_variedad = v.id_variedad
                   LEFT JOIN lugar l ON b.id_lugar = l.id_lugar";
         
         if (!empty($cliente) && $cliente !== 'sin_cliente') {
             // Remito de cliente en una fecha específica
-            $query .= " WHERE DATE(b.fecha_venta) = :fechaInicio AND l.id_lugar = :cliente";
+            $query .= " WHERE b.id_lugar = :cliente AND b.fecha_venta = :fechaInicio";;
         } else {
             // Remito sin cliente entre dos fechas
-            $query .= " WHERE (l.id_lugar IS NULL OR l.id_lugar = 0) 
-                        AND DATE(b.fecha_venta) BETWEEN :fechaInicio AND :fechaFin";
+            $query .= " WHERE b.fecha_venta BETWEEN :fechaInicio AND :fechaFin";
         }
     
         $stmt = $this->db->prepare($query);
@@ -321,8 +323,6 @@ public function obtenerNombreLugar($id_lugar) {
         $stmt->execute();
         return $stmt->fetchAll(PDO::FETCH_OBJ);
     }
-    
-    
     
     
     public function getVariedadPorId($id_variedad) {

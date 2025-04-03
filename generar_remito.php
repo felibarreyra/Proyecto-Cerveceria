@@ -1,5 +1,6 @@
 <?php
 require_once __DIR__ . '/controllers/barril.controller.php';
+require_once __DIR__ . '/controllers/variedad.controller.php';
 require('./pdf/fpdf/fpdf.php');
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['fecha_inicio'], $_POST['fecha_fin'])) {
@@ -16,6 +17,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['fecha_inicio'], $_POS
 
     $pdf->SetFont('Arial', '', 12);
     $controller = new BarrilController();
+    $controllerVariedad = new variedadController();
 
     if ($cliente === 'sin_cliente') {
         $pdf->Cell(100, 10, 'Cliente: Ventas sin cliente', 0, 1);
@@ -34,11 +36,14 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['fecha_inicio'], $_POS
     // Obtener los barriles por cliente y rango de fechas
     $barriles = $controller->getBarrilesPorClienteOFecha($cliente, $fechaInicio, $fechaFin);
 
-    $pdf->SetFont('Arial', 'B', 12);
-    $pdf->Cell(40, 10, 'Codigo Barril', 1, 0, 'C');
-    $pdf->Cell(40, 10, 'Litros', 1, 0, 'C');
-    $pdf->Cell(60, 10, 'Precio x Litro', 1, 0, 'C');
-    $pdf->Cell(50, 10, 'Precio Total', 1, 1, 'C');
+    $pdf->Cell(30, 10, 'Codigo Barril', 1, 0, 'C');
+    $pdf->Cell(40, 10, 'Variedad', 1, 0, 'C'); 
+    $pdf->Cell(30, 10, 'Litros', 1, 0, 'C');
+    $pdf->Cell(45, 10, 'Precio x Litro', 1, 0, 'C');
+    $pdf->Cell(45, 10, 'Precio Total', 1, 1, 'C');
+    
+    
+    
 
     $pdf->SetFont('Arial', '', 10);
     $totalGeneral = 0;
@@ -47,15 +52,18 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['fecha_inicio'], $_POS
         $precioTotal = $barril->litros * $barril->precio_x_litro;
         $totalGeneral += $precioTotal;
 
-        $pdf->Cell(40, 10, $barril->codigo, 1, 0, 'C');
-        $pdf->Cell(40, 10, $barril->litros . 'L', 1, 0, 'C');
-        $pdf->Cell(60, 10, '$' . number_format($barril->precio_x_litro, 2), 1, 0, 'C');
-        $pdf->Cell(50, 10, '$' . number_format($precioTotal, 2), 1, 1, 'C');
+        $pdf->Cell(30, 10, $barril->codigo, 1, 0, 'C');
+        $variedadNombre = $controllerVariedad->getNombreVariedad($barril->id_variedad);
+        $pdf->Cell(40, 10, $variedadNombre, 1, 0, 'C');
+        $pdf->Cell(30, 10, $barril->litros . 'L', 1, 0, 'C');
+        $pdf->Cell(45, 10, '$' . number_format($barril->precio_x_litro, 2), 1, 0, 'C');
+        $pdf->Cell(45, 10, '$' . number_format($precioTotal, 2), 1, 1, 'C');
     }
 
     $pdf->SetFont('Arial', 'B', 12);
-    $pdf->Cell(140, 10, 'PRECIO TOTAL (sin IVA)', 1, 0, 'R');
-    $pdf->Cell(50, 10, '$' . number_format($totalGeneral, 2), 1, 1, 'C');
+    $pdf->Cell(145, 10, 'PRECIO TOTAL (sin IVA)', 1, 0, 'R');
+    $pdf->Cell(45, 10, '$' . number_format($totalGeneral, 2), 1, 1, 'C');
+
 
     if (ob_get_length()) ob_end_clean();
     $pdf->Output('D', 'remito_' . ($cliente ?: 'todos') . '_' . $fechaInicio . '_' . $fechaFin . '.pdf');

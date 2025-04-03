@@ -97,30 +97,36 @@ require_once __DIR__ . '/controllers/lugar.controller.php';
 
 
 <form action="cambiar_lugar.php" method="POST">
-    <div class="lista-barriles">
-        <?php if (!empty($barriles)): ?>  <!-- Verifica que haya barriles antes de iterar -->
-            <?php foreach ($barriles as $barril): ?>
-                <?php 
-                    // Convertimos el estado a minúsculas para que coincida con las clases CSS
-                    $estadoClase = strtolower($barril->estado); 
-                ?>
-                <div class="barril-card">
-                    <input type="checkbox" name="barriles[]" value="<?= $barril->id_barril ?>" class="checkbox-barril">
-                    <h3><?= htmlspecialchars($barril->codigo) ?></h3>
-                    <p><b>VARIEDAD :</b> <?= htmlspecialchars($barril->variedad) ?></p>
-                    <p><b>LITROS :</b> <?= htmlspecialchars($barril->litros) ?>L</p>
-                    <p><b>ESTADO:</b> 
-                     <span class="estado <?= strtolower($barril->estado) ?>">
-                    <?= htmlspecialchars($barril->estado) ?>
-                        </span>
-                    </p>
-                </div>
-            <?php endforeach; ?>
-        <?php else: ?>  
-            <p class="mensaje-vacio">No hay barriles registrados.</p>
-        <?php endif; ?>
-   
-            </div>
+        <div class="lista-barriles">
+            <?php if (!empty($barriles)): ?>  <!-- Verifica que haya barriles antes de iterar -->
+                <?php foreach ($barriles as $barril): ?>
+                    <?php 
+                        // Convertimos el estado a minúsculas para que coincida con las clases CSS
+                        $estadoClase = strtolower(str_replace(" ", "-", $barril->estado)); 
+
+                        
+                        // Solo permitir seleccionar barriles que estén llenos
+                        $esLleno = strtolower($barril->estado) === 'lleno'; 
+                    ?>
+                    <div class="barril-card estado-<?= $estadoClase ?>">
+                        <?php if ($esLleno): ?>  
+                            <input type="checkbox" name="barriles[]" value="<?= $barril->id_barril ?>" class="checkbox-barril">
+                        <?php endif; ?>
+                        <h3><?= htmlspecialchars($barril->codigo) ?></h3>
+                        <p><b>VARIEDAD :</b> <?= htmlspecialchars($barril->variedad) ?></p>
+                        <p><b>LITROS :</b> <?= htmlspecialchars($barril->litros) ?>L</p>
+                        <p><b>ESTADO:</b> 
+                        <span class="estado <?= $estadoClase ?>">
+                        <?= htmlspecialchars($barril->estado) ?>
+                            </span>
+                        </p>
+                    </div>
+                <?php endforeach; ?>
+            <?php else: ?>  
+                <p class="mensaje-vacio">No hay barriles registrados.</p>
+            <?php endif; ?>
+        </div>
+
 
             <label for="lugar">Lugar:</label>
             <select name="id_lugar" id="lugar">
