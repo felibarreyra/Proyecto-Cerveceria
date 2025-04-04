@@ -41,7 +41,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['buscar_barril'])) {
 <?php include './views/nav.php'; ?>
 <section class="section-buscar-barril">
 
-    <h1>Buscar Barril por Código</h1>
 
     <form method="POST" class="form-buscar-barril">
         <label for="codigo">Ingrese Código del Barril:</label>

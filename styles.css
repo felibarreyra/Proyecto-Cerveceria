@@ -1154,6 +1154,19 @@ background-size: cover;
     margin-right: 80px;
 
 }
+.section-buscar-barril {
+    background-image: url('./img/logo.jpg');
+    background-repeat: no-repeat;        /* Para que no se repita */
+    background-position: center center;  /* Centrado horizontal y vertical */
+    background-size: auto;               /* Tamaño original de la imagen */
+    background-attachment: fixed;        /* Fijo al hacer scroll */
+    background-color: #000000;
+}
+
+.form-buscar-barril{
+    margin: 40px auto 80px;;
+}
+
 
     
 
