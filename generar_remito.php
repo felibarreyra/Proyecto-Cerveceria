@@ -29,9 +29,15 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['fecha_inicio'], $_POS
         $pdf->Cell(100, 10, 'Cliente: Todos', 0, 1);
     }
 
-    $pdf->Cell(100, 10, 'Fecha Desde: ' . htmlspecialchars($fechaInicio), 0, 1);
-    $pdf->Cell(100, 10, 'Fecha Hasta: ' . htmlspecialchars($fechaFin), 0, 1);
-    $pdf->Ln(8);
+   // Mostrar fechas según lo ingresado
+    if (!empty($fechaInicio) && !empty($fechaFin)) {
+        $pdf->Cell(100, 10, 'Fecha Desde: ' . htmlspecialchars($fechaInicio), 0, 1);
+        $pdf->Cell(100, 10, 'Fecha Hasta: ' . htmlspecialchars($fechaFin), 0, 1);
+    } elseif (!empty($fechaInicio)) {
+        $pdf->Cell(100, 10, 'Fecha: ' . htmlspecialchars($fechaInicio), 0, 1);
+    } elseif (!empty($fechaFin)) {
+        $pdf->Cell(100, 10, 'Fecha: ' . htmlspecialchars($fechaFin), 0, 1);
+    }
 
     // Obtener los barriles por cliente y rango de fechas
     $barriles = $controller->getBarrilesPorClienteOFecha($cliente, $fechaInicio, $fechaFin);

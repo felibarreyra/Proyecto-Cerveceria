@@ -38,7 +38,7 @@ $totalBarriles = count($barrilesVacios);
 
     <section class="vacios">
         <section class="contenedor-lista">
-            <h2 class="barriles_vacios">Barriles Vacíos (<?= $totalBarriles ?>)</h2>
+            <h2 class="venta">Barriles Vacíos (<?= $totalBarriles ?>)</h2>
 
             <!-- Formulario de filtrado -->
             <form method="GET" action="">
@@ -64,23 +64,35 @@ $totalBarriles = count($barrilesVacios);
             }
             ?>
 
-            <div class="lista-barriles">
-                <?php if (!empty($barrilesVacios)): ?>
-                    <?php foreach ($barrilesVacios as $barril): ?>
-                        <div class="barril-card">
-                            <h3><?= htmlspecialchars($barril->codigo) ?></h3>
-                            <p><b>LITROS:</b> <?= htmlspecialchars($barril->litros) ?>L</p>
-                            <p><b>ESTADO:</b> <span class="estado vacio"><?= htmlspecialchars($barril->estado) ?></span></p>
-                            <form action="eliminar.php" method="POST" onsubmit="return confirm('¿Seguro que quieres eliminar este barril?');">
-                                <input type="hidden" name="id_barril" value="<?= htmlspecialchars($barril->id_barril) ?>">
-                                <button type="submit" class="btn-borrar">🗑️ Borrar</button>
-                            </form>
-                        </div>
-                    <?php endforeach; ?>
-                <?php else: ?>
-                    <p class="mensaje-vacio">No hay barriles vacíos registrados para esta capacidad.</p>
-                <?php endif; ?>
+<div class="lista-barriles">
+    <?php if (!empty($barrilesVacios)): ?>
+        <?php foreach ($barrilesVacios as $barril): ?>
+            <?php
+                // Lógica para seleccionar la imagen correcta
+                if ($barril->litros == 20) {
+                    $imagenBarril = './img/barril20.jpg';
+                } elseif ($barril->litros == 30) {
+                    $imagenBarril = './img/barril.png';
+                } elseif ($barril->litros == 50) {
+                    $imagenBarril = './img/barril50.jpg';
+                } 
+            ?>
+            <div class="barril-card-vacios">
+                <img src="<?= $imagenBarril ?>" alt="Barril <?= htmlspecialchars($barril->litros) ?>L" class="img-barril">
+                <h3><?= htmlspecialchars($barril->codigo) ?></h3>
+                <p><b>LITROS:</b> <?= htmlspecialchars($barril->litros) ?>L</p>
+                <p><b>ESTADO:</b> <span class="estado vacio"><?= htmlspecialchars($barril->estado) ?></span></p>
+                <form action="eliminar.php" method="POST" onsubmit="return confirm('¿Seguro que quieres eliminar este barril?');">
+                    <input type="hidden" name="id_barril" value="<?= htmlspecialchars($barril->id_barril) ?>">
+                    <button type="submit" class="btn-borrar">🗑️ Borrar</button>
+                </form>
             </div>
+        <?php endforeach; ?>
+    <?php else: ?>
+        <p class="mensaje-vacio">No hay barriles vacíos registrados para esta capacidad.</p>
+    <?php endif; ?>
+</div>
+
         </section>
     </section>
 

@@ -122,9 +122,24 @@
         </form>
 
         <div class="lista-barriles">
-            <?php if (!empty($barriles)): ?>
-                <?php foreach ($barriles as $barril): ?>
-                    <div class="barril-card">
+        <?php if (!empty($barriles)): ?>  
+            <?php foreach ($barriles as $barril): ?>
+                <?php 
+                    $estadoClase = strtolower(str_replace(" ", "-", $barril->estado)); 
+                    $esLleno = strtolower($barril->estado) === 'lleno'; 
+                ?>
+                <div class="barril-card estado-<?= $estadoClase ?>">
+                <?php
+                // Selección dinámica de la imagen según la capacidad del barril
+               
+                if ($barril->litros == 20) {
+                $imagenBarril = './img/barril20.jpg';
+                } elseif ($barril->litros == 30) {
+                 $imagenBarril = './img/barril.png';
+                } elseif ($barril->litros == 50) {
+                 $imagenBarril = './img/barril50.jpg';
+                }?>
+                    <img src="<?= $imagenBarril ?>" alt="Barril <?= htmlspecialchars($barril->litros) ?>L" class="img-barril">
                         <h3><?= htmlspecialchars($barril->codigo) ?></h3>
                         <p><b>VARIEDAD :</b> <?= htmlspecialchars($barril->variedad) ?></p>
                         <p><b>LITROS :</b> <?= htmlspecialchars($barril->litros) ?>L</p>

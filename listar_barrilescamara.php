@@ -6,13 +6,20 @@ require_once __DIR__ . '/controllers/lugar.controller.php';
 <!DOCTYPE html>
 <html lang="es">
 <head>
-    <meta charset="UTF-8">
+<meta charset="UTF-8">
     <link rel="icon" type="image/png" href="./img/logo.png">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="description" content="Sistema de control de stock y ventas para cervecería.">
     <title>Sistema de Control de Stock</title>
-    <link rel="stylesheet" href="styles.css">
+    
+    <!-- Estilos -->
+    <link rel="stylesheet" href="styles.css"> <!-- Asegurar que la ruta sea correcta -->
+
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto+Condensed:wght@100..900&display=swap" rel="stylesheet">
 </head>
 <body>
     <?php include './views/header.php'; ?>
@@ -96,32 +103,43 @@ require_once __DIR__ . '/controllers/lugar.controller.php';
 </form>
 
 
-<form action="cambiar_lugar.php" method="POST">
-<div class="lista-barriles">
-    <?php if (!empty($barriles)): ?>  
-        <?php foreach ($barriles as $barril): ?>
-            <?php 
-                $estadoClase = strtolower(str_replace(" ", "-", $barril->estado)); 
-                $esLleno = strtolower($barril->estado) === 'lleno'; 
-            ?>
-            <div class="barril-card estado-<?= $estadoClase ?>">
-                <?php if ($esLleno): ?>  
-                    <input type="checkbox" name="barriles[]" value="<?= $barril->id_barril ?>" class="checkbox-barril">
-                <?php endif; ?>
-                <h3><?= htmlspecialchars($barril->codigo) ?></h3>
-                <p><b>VARIEDAD :</b> <?= htmlspecialchars($barril->variedad) ?></p>
-                <p><b>LITROS :</b> <?= htmlspecialchars($barril->litros) ?>L</p>
-                <p><b>ESTADO:</b> 
-                    <span class="estado <?= $estadoClase ?>">
-                        <?= htmlspecialchars($barril->estado) ?>
-                    </span>
-                </p>
-            </div>
-        <?php endforeach; ?>
-    <?php else: ?>  
-        <p class="mensaje-vacio">No hay barriles registrados.</p>
-    <?php endif; ?>
-</div>
+    <form action="cambiar_lugar.php" method="POST">
+    <div class="lista-barriles">
+        <?php if (!empty($barriles)): ?>  
+            <?php foreach ($barriles as $barril): ?>
+                <?php 
+                    $estadoClase = strtolower(str_replace(" ", "-", $barril->estado)); 
+                    $esLleno = strtolower($barril->estado) === 'lleno'; 
+                ?>
+                <div class="barril-card estado-<?= $estadoClase ?>">
+                <?php
+                // Selección dinámica de la imagen según la capacidad del barril
+               
+                if ($barril->litros == 20) {
+                $imagenBarril = './img/barril20.jpg';
+                } elseif ($barril->litros == 30) {
+                 $imagenBarril = './img/barril.png';
+                } elseif ($barril->litros == 50) {
+                 $imagenBarril = './img/barril50.jpg';
+                }?>
+                    <img src="<?= $imagenBarril ?>" alt="Barril <?= htmlspecialchars($barril->litros) ?>L" class="img-barril">
+                    <?php if ($esLleno): ?>  
+                        <input type="checkbox" name="barriles[]" value="<?= $barril->id_barril ?>" class="checkbox-barril">
+                    <?php endif; ?>
+                    <h3><?= htmlspecialchars($barril->codigo) ?></h3>
+                    <p><b>VARIEDAD :</b> <?= htmlspecialchars($barril->variedad) ?></p>
+                    <p><b>LITROS :</b> <?= htmlspecialchars($barril->litros) ?>L</p>
+                    <p><b>ESTADO:</b> 
+                        <span class="estado <?= $estadoClase ?>">
+                            <?= htmlspecialchars($barril->estado) ?>
+                        </span>
+                    </p>
+                </div>
+            <?php endforeach; ?>
+        <?php else: ?>  
+            <p class="mensaje-vacio">No hay barriles registrados.</p>
+        <?php endif; ?>
+    </div>
 
 
 

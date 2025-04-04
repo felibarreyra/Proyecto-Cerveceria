@@ -15,30 +15,33 @@ body{
 /* Estilos generales para el header */
 .header {
     display: flex;
-    justify-content: space-between;
     align-items: center;
-    width: 100%;
-    height: 200px;
-    background-color: #000000; /* Fondo oscuro */
-    padding: 20px;
-    transition: top 0.3s; /* Agrega una transición suave cuando se fije */
+    justify-content: center; /* Centra el contenido por defecto */
+    position: relative;
+    padding: 10px 20px;
+    background-color: #000000;
+    height: 150px;
 }
 
-/* Estilo para el título dentro del header */
-.nombre h2 {
-    font-size: 2.5rem;
-    font-weight: bold;
-    color: #fff;
-    margin-right: 40px;
+.header-image {
+    position: absolute;
+    left: 20px; /* espacio desde el borde izquierdo */
+    top: 50%;
+    transform: translateY(-50%);
 }
 
-/* Estilo de la imagen del logo */
-.header-image .image {
-    max-height: 100%;
-    max-width: 150px;
-    object-fit: cover;
-    border-radius: 10px;
+.image {
+    height: 100px; /* ajustá el tamaño del logo si querés */
+    width: auto;
 }
+
+.tituloo {
+    margin: 0;
+    font-size: 24px;
+    text-align: center;
+    color:#f9f9f9
+}
+
 
 /* Estilo cuando el header se hace fijo */
 .header.fixed {
@@ -156,7 +159,7 @@ body{
 /* Sección Izquierda (Slider) */
 .left-section {
     width: 50%;
-    background-color: #000000; /* Color de fondo para que contraste */
+    background-color: #ffffff; /* Color de fondo para que contraste */
     display: flex;
     align-items: center;
     justify-content: center;
@@ -212,31 +215,6 @@ body{
     text-align: center;
     margin-right: 200px;
     
-}
-
-.right-section h2 {
-    font-size: 24px;
-    font-weight: bold;
-    text-transform: uppercase;
-    text-align: center;
-    color: rgb(0, 0, 0); /* Texto blanco para contraste */
-    background: linear-gradient(135deg, 
-        #ff69b4, /* Rosa */
-        #ffd700, /* Amarillo */
-        #32cd32, /* Verde */
-        #ffffff, /* Blanco */
-        #87ceeb, /* Celeste */
-        #ff8c00, /* Naranja */
-        #ff0000  /* Rojo */
-    );
-    padding: 15px 20px;
-    border-radius: 10px;
-    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
-    display: inline-block;
-    margin: 10px auto;
-    letter-spacing: 1.5px;
-    animation: colores 5s infinite linear;
-    transition: transform 0.3s ease, box-shadow 0.3s ease;
 }
 
 /* Efecto de animación para que los colores se muevan */
@@ -388,68 +366,77 @@ h2.stock{
     background-color: #c0392b;
 }
 .formulario-filtros {
-    background-color: #f4f4f4;
-    padding: 20px;
-    border-radius: 8px;
+    background: linear-gradient(to right, #ffffff, #f0f4ff);
+    padding: 25px 30px;
+    border-radius: 12px;
     max-width: 500px;
-    margin: 0 auto;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    margin: 40px auto;
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+    border: 1px solid #d9e4ff;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
 }
 
 .formulario-filtros h3 {
     text-align: center;
-    font-size: 1.5rem;
-    color: #333;
-    margin-bottom: 15px;
+    font-size: 1.8rem;
+    color: #2c3e50;
+    margin-bottom: 20px;
+    font-weight: 600;
 }
 
 .campo-filtro {
-    margin-bottom: 15px;
+    margin-bottom: 20px;
 }
 
 .campo-filtro label {
     display: block;
     font-size: 1rem;
-    color: #333;
-    margin-bottom: 5px;
+    color: #555;
+    margin-bottom: 8px;
+    font-weight: 500;
 }
 
 .campo-filtro select {
     width: 100%;
-    padding: 10px;
-    border-radius: 5px;
-    border: 1px solid #ccc;
+    padding: 12px;
+    border-radius: 8px;
+    border: 1px solid #ccd9ff;
     font-size: 1rem;
-    background-color: #fff;
+    background-color: #ffffff;
     color: #333;
-    transition: border-color 0.3s ease-in-out;
+    transition: all 0.3s ease-in-out;
+    box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.03);
 }
 
 .campo-filtro select:focus {
-    border-color: #007BFF;
+    border-color: #4a90e2;
+    outline: none;
+    box-shadow: 0 0 0 3px rgba(74, 144, 226, 0.2);
 }
 
 .btn-filtrar {
     display: block;
     width: 100%;
-    padding: 12px;
-    background-color: #007BFF;
+    padding: 14px;
+    background: linear-gradient(to right, #007bff, #0056b3);
     color: #fff;
     font-size: 1rem;
+    font-weight: bold;
     border: none;
-    border-radius: 5px;
+    border-radius: 8px;
     cursor: pointer;
-    transition: background-color 0.3s ease-in-out;
+    transition: transform 0.2s ease, box-shadow 0.3s ease;
 }
 
 .btn-filtrar:hover {
-    background-color: #0056b3;
+    transform: translateY(-2px);
+    box-shadow: 0 8px 15px rgba(0, 123, 255, 0.2);
 }
 
 @media screen and (max-width: 600px) {
     .formulario-filtros {
-        padding: 15px;
-        max-width: 100%;
+        padding: 20px;
+        max-width: 95%;
     }
 }
 
@@ -459,97 +446,219 @@ h2.stock{
 /* Contenedor principal */
 .contenedor-lista {
     max-width: 800px;
-    padding: 20px;
-    background: #f9f9f9;
-    border-radius: 10px;
-    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+    margin: 50px auto 150px auto;
+    padding: 30px 40px;
+    background: linear-gradient(to right, #ffffff, #f0f4f8);
+    border-radius: 20px;
+    box-shadow: 0 15px 30px rgba(0, 0, 0, 0.1);
+    display: flex;
+    flex-direction: column;
     align-items: center;
-    margin-left: 30%;
-    align-content: center;
-    margin-bottom: 150px;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
 }
+
+.contenedor-lista:hover {
+    transform: scale(1.02);
+    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.15);
+}
+
+.contenedor-lista h2 {
+    margin-bottom: 20px;
+    font-size: 28px;
+    color: #333;
+    text-align: center;
+}
+
+.contenedor-lista ul {
+    list-style: none;
+    padding: 0;
+    width: 100%;
+}
+
+.contenedor-lista ul li {
+    background: #ffffff;
+    padding: 15px 20px;
+    margin-bottom: 10px;
+    border-left: 5px solid #4CAF50;
+    border-radius: 8px;
+    font-size: 18px;
+    color: #444;
+    transition: background 0.2s ease;
+}
+
+.contenedor-lista ul li:hover {
+    background: #e8f5e9;
+}
+
+
 .contenedor-lista-ventas {
     max-width: 800px;
-    padding: 20px;
-    background: #f9f9f9;
-    border-radius: 10px;
-    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+    margin: 50px auto 30px auto;
+    padding: 30px 40px;
+    background: linear-gradient(to right, #fff, #f3f3f3);
+    border-radius: 16px;
+    box-shadow: 0 12px 24px rgba(0, 0, 0, 0.1);
+    display: flex;
+    flex-direction: column;
     align-items: center;
-    margin-left: 30%;
-    align-content: center;
-    margin-bottom: 150px;
+    transition: all 0.3s ease;
+}
+
+.contenedor-lista-ventas:hover {
+    box-shadow: 0 18px 36px rgba(0, 0, 0, 0.15);
+    transform: scale(1.01);
+}
+
+.contenedor-lista-ventas h2 {
+    margin-bottom: 20px;
+    font-size: 26px;
+    color: #2e2e2e;
+}
+
+.contenedor-lista-ventas ul {
+    list-style: none;
+    padding: 0;
+    width: 100%;
+}
+
+.contenedor-lista-ventas ul li {
+    background-color: #ffffff;
+    padding: 15px 20px;
+    margin-bottom: 12px;
+    border-left: 6px solid #2196F3;
+    border-radius: 10px;
+    color: #333;
+    font-size: 18px;
+    transition: background 0.2s ease;
+}
+
+.contenedor-lista-ventas ul li:hover {
+    background-color: #e3f2fd;
 }
 
 
 .lista-barriles {
     display: flex;
     flex-wrap: wrap;
-    gap: 15px;
+    gap: 20px;
     justify-content: center;
-    max-height: 400px; /* Ajusta la altura según sea necesario */
-    overflow-y: auto; /* Agrega scroll vertical si el contenido es demasiado grande */
-    overflow-x: hidden; /* Evita desplazamiento horizontal */
-    border: 1px solid #ccc; /* Opcional: para visualizar los límites */
-    padding: 10px;
-    
+    max-height: 500px;
+    overflow-y: auto;
+    overflow-x: hidden;
+    border: 1px solid #e0e0e0;
+    border-radius: 12px;
+    padding: 20px;
+    background: linear-gradient(to bottom right, #f9f9f9, #ffffff);
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.05);
 }
 
 .barril-card {
-    background: white;
-    padding: 15px;
-    border-radius: 8px;
-    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
-    width: 200px;
+    background: #ffffff;
+    padding: 20px 16px;
+    border-radius: 14px;
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.1);
+    width: 220px;
     text-align: center;
+    transition: transform 0.2s ease, box-shadow 0.3s ease;
+    border-top: 5px solid #4CAF50;
+}
+.barril-card-vacios {
+    background: #ffffff;
+    padding: 20px 16px;
+    border-radius: 14px;
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.1);
+    width: 220px;
+    text-align: center;
+    transition: transform 0.2s ease, box-shadow 0.3s ease;
+    border-top: 5px solid #ff0000;
+}
+
+.barril-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.15);
 }
 
 .barril-card h3 {
-    color: #333;
-    font-size: 20px;
+    color: #2c3e50;
+    font-size: 22px;
+    margin-bottom: 10px;
 }
 
 .barril-card p {
-    font-size: 14px;
-    margin: 5px 0;
+    font-size: 15px;
+    color: #555;
+    margin: 6px 0;
 }
 
 .estado {
-    padding: 5px 10px;
-    border-radius: 5px;
-    font-weight: bold;
+    display: inline-block;
+    padding: 6px 12px;
+    border-radius: 50px;
+    font-weight: 600;
+    font-size: 14px;
+    margin-top: 10px;
+    text-transform: uppercase;
 }
 
 .estado.lleno {
-    background: green;
-    color: white;
+    background: #4CAF50;
+    color: #fff;
+    border: 1px solid #388E3C;
 }
 
 .estado.vacio {
-    background: red;
-    color: white;
+    background: #F44336;
+    color: #fff;
+    border: 1px solid #C62828;
 }
 
 .estado.en-uso {
-    background: orange;
-    color: white;
+    background: #FF9800;
+    color: #fff;
+    border: 1px solid #EF6C00;
 }
 
 .mensaje-vacio {
-    font-size: 16px;
+    font-size: 18px;
     text-align: center;
-    color: #777;
+    color: #999;
+    padding: 20px;
 }
-/* Formulario de Modificación de Barril */
+
+
+
 /* Estilos para el formulario de búsqueda de barril */
 
+/* ========== CONTENEDOR GENERAL ========== */
+.contenedor-modificar {
+    max-width: 700px;
+    margin: 50px auto;
+    background: #ffffff;
+    padding: 30px;
+    border-radius: 12px;
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.08);
+}
 
+/* ========== TÍTULO PRINCIPAL ========== */
+.contenedor-modificar h2.venta {
+    font-size: 42px;
+    color: #2c3e50;
+    font-weight: bold;
+    margin-bottom: 30px;
+    text-align: center;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+
+
+/* ========== FORMULARIO BUSCAR BARRIL ========== */
 .form-buscar-barril {
     background-color: #f4f4f4;
     padding: 20px;
     border-radius: 8px;
     width: 100%;
     max-width: 400px;
-    margin: 30px auto;
+    margin: 0 auto 30px auto;
     box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
 }
 
@@ -578,7 +687,7 @@ h2.stock{
     box-shadow: 0 0 5px rgba(0, 123, 255, 0.5);
 }
 
-.form-buscar-barril button[type="submit"] {
+.btn-modificar-buscar {
     width: 100%;
     padding: 14px;
     font-size: 18px;
@@ -591,114 +700,173 @@ h2.stock{
     transition: background-color 0.3s ease;
 }
 
-.form-buscar-barril button[type="submit"]:hover {
+.btn-modificar-buscar:hover {
     background-color: #0056b3;
 }
 
-/* Ajustes para la visualización móvil */
-@media screen and (max-width: 600px) {
-    .form-buscar-barril {
-        padding: 15px;
-        width: 90%;
-    }
-    .form-buscar-barril label {
-        font-size: 14px;
-    }
-    .form-buscar-barril input[type="text"],
-    .form-buscar-barril button[type="submit"] {
-        font-size: 16px;
-    }
+/* ========== TÍTULOS SECUNDARIOS ========== */
+.modificar-h3 {
+    font-size: 22px;
+    font-weight: bold;
+    color: #2c3e50;
+    margin: 30px 0 20px 0;
+    text-align: center;
+    border-bottom: 1px solid #ddd;
+    padding-bottom: 8px;
 }
 
-.form-modificar {
-    display: flex;
-    flex-direction: column;
-    background: #a0a0a0; /* Mismo fondo que en agregar, para mantener consistencia */
+/* ========== FORMULARIO EDITAR ========== */
+#formulario-edicion,
+#formulario-vaciar {
+    background: #fafafa;
     padding: 20px;
     border-radius: 10px;
-    width: 100%;
-    max-width: 400px; /* Mantener el mismo ancho máximo que en agregar */
-    height: auto; /* Ajuste dinámico en altura */
-    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.2); /* Sombra similar */
-    text-align: center;
-    overflow-y: auto;
+    margin-top: 20px;
+    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.05);
 }
 
-.form-modificar h2 {
-    font-size: 60px;
-    color: #ffffff;
-    margin-bottom: 15px;
-    text-align: center;
-}
-
-/* Formulario de edición */
-#formulario-edicion {
-    margin-top: 30px;
-}
-
-#formulario-edicion h3 {
-    font-size: 20px;
-    color: #333;
-    margin-bottom: 20px;
-}
-
-#formulario-edicion form {
+#formulario-edicion form,
+#formulario-vaciar form {
     display: flex;
     flex-direction: column;
 }
 
-#formulario-edicion label {
+#formulario-edicion label,
+#formulario-vaciar label {
     font-size: 16px;
     margin-bottom: 8px;
     color: #333;
+    font-weight: 500;
 }
 
 #formulario-edicion select {
     padding: 10px;
     margin-bottom: 15px;
     border: 1px solid #ccc;
-    border-radius: 4px;
+    border-radius: 6px;
     font-size: 16px;
 }
 
-#formulario-edicion button {
-    background-color: #007bff;
+/* ========== BOTONES EDITAR Y VACIAR ========== */
+.btn-modificar-vaciar {
+    width: 100%;
+    padding: 14px;
+    font-size: 18px;
+    font-weight: bold;
+    background-color: #e74c3c;
     color: white;
     border: none;
-    padding: 12px 20px;
-    border-radius: 4px;
-    font-size: 16px;
+    border-radius: 8px;
     cursor: pointer;
+    transition: background-color 0.3s ease;
 }
 
-#formulario-edicion button:hover {
-    background-color: #0056b3;
+.btn-modificar-vaciar:hover {
+    background-color: #c0392b;
 }
-.contenedor-modificar {
-    width: 80%;
-    max-width: 800px;
-    margin: 30px auto;
-    padding: 20px;
-    background-color: white;
+
+.btn-modificar-guardar {
+    width: 100%;
+    padding: 14px;
+    font-size: 18px;
+    font-weight: bold;
+    background-color: #2ecc71;
+    color: white;
+    border: none;
     border-radius: 8px;
-    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
-    margin-bottom: 250px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
 }
-.venta{
-    color: #000000;
+
+.btn-modificar-guardar:hover {
+    background-color: #27ae60;
+}
+
+/* ========== MENSAJE DE ERROR ========== */
+.mensaje-error {
+    color: #e74c3c;
+    background-color: #fdecea;
+    border: 1px solid #f5c6cb;
+    padding: 15px;
+    border-radius: 6px;
     text-align: center;
+    font-weight: bold;
+    margin-top: 20px;
 }
+
+/* ========== RESPONSIVE ========== */
+@media screen and (max-width: 600px) {
+    .form-buscar-barril,
+    #formulario-edicion,
+    #formulario-vaciar {
+        width: 90%;
+        padding: 15px;
+    }
+
+    .form-buscar-barril label,
+    #formulario-edicion label {
+        font-size: 14px;
+    }
+
+    .form-buscar-barril input[type="text"],
+    .form-buscar-barril button,
+    #formulario-edicion select,
+    .btn-modificar-vaciar,
+    .btn-modificar-guardar {
+        font-size: 16px;
+    }
+}
+
+.venta {
+    text-align: center;
+    font-size: 2.2rem;
+    color: #2c3e50;
+    margin-top: 30px;
+    margin-bottom: 25px;
+    position: relative;
+    font-weight: bold;
+    text-transform: uppercase;
+    letter-spacing: 1.5px;
+}
+
+.venta::after {
+    content: '';
+    display: block;
+    width: 80px;
+    height: 4px;
+    background: linear-gradient(90deg, #00b894, #0984e3);
+    margin: 10px auto 0;
+    border-radius: 2px;
+}
+
 .contenedor-form {
-    background: #ffffff;
-    padding: 20px;
-    border-radius: 10px;
-    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.2);
-    width: 800px;
-    height: 350px;
+    background-color: #ffffff;
+    padding: 30px;
+    border-radius: 16px;
+    box-shadow: 0 6px 16px rgba(0, 0, 0, 0.15);
+    max-width: 800px;
+    width: 90%; /* Para que se adapte a pantallas más pequeñas */
+    height: auto; /* Mejor que una altura fija */
     text-align: center;
-    overflow-y: hidden;
-    margin-bottom: 250px;
+    margin: 40px auto 80px; /* Centrado y con buen margen inferior */
+    overflow-y: auto; /* Por si llega a desbordarse */
+    transition: all 0.3s ease;
 }
+
+/* Si querés un toque visual más elegante al hacer hover o focus en el form */
+.contenedor-form:hover {
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
+}
+
+/* Responsive para móviles */
+@media screen and (max-width: 600px) {
+    .contenedor-form {
+        padding: 20px;
+        border-radius: 12px;
+        margin: 30px auto;
+    }
+}
+
 .btn-vaciar {
     background-color: #FF4D4D; /* Rojo para dar la sensación de alerta */
     color: white;
@@ -728,7 +896,7 @@ h2.stock{
     background-size: cover;
     background-position: center;
     background-attachment: fixed;
-    height: 1300px;
+    height: 1500px;
     align-items: center;
     align-content: center;
 
@@ -743,12 +911,12 @@ background-image: url('./img/fondoagregar.jpg');
 background-size: cover;
  background-position: center; 
  background-attachment: fixed;
- height: 900px;
+ height: 800px;
  align-content: center;
 }
 
 .modificar{
-    height: 1200px;
+    height: 1000px;
     background-image: url('./img/fondovaciar.jpg');
     background-size: cover;
     background-position: center; 
@@ -757,7 +925,7 @@ background-size: cover;
     align-content: center;
 }
 .ventas-container{
-    height: 1300px;
+    height: 1600px;
     align-content: center;
     background-image: url('./img/fondo\ ventas.jpg');
     background-size: cover;
@@ -886,6 +1054,105 @@ background-size: cover;
 
 .btn-generar:hover {
     background-color: #4cae4c;
+}
+.resultado-barril {
+    max-width: 700px;
+    margin: 30px auto;
+    padding: 25px 30px;
+    background: linear-gradient(145deg, #f5f5f5, #ffffff);
+    border-radius: 15px;
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+    border-left: 8px solid #4CAF50;
+    position: relative;
+    animation: fadeIn 0.5s ease-in-out;
+}
+
+.resultado-barril::before {
+    content: "🍺";
+    font-size: 30px;
+    position: absolute;
+    top: -20px;
+    left: -20px;
+    background-color: #4CAF50;
+    color: #fff;
+    padding: 10px;
+    border-radius: 50%;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+}
+
+.contenido-resultado {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 20px;
+}
+
+.texto-barril {
+    flex: 1;
+    min-width: 250px;
+}
+
+.imagen-barril {
+    flex: 1;
+    text-align: right;
+}
+
+.imageen-barril {
+    max-width: 150px;
+    height: auto;
+    border-radius: 10px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+}
+
+.resultado-barril p {
+    font-size: 18px;
+    margin: 12px 0;
+    color: #333;
+}
+
+.resultado-barril strong {
+    color: #222;
+}
+
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(15px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+
+
+.no-encontrado {
+    color: #b10000;
+    text-align: center;
+    margin-top: 20px;
+}
+.section-buscar-barril {
+    height: 1300px;
+}
+.img-barril {
+    width: 80px;
+    height: auto;
+    margin-bottom: 10px;
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+}
+.imgen-barril {
+    width: 150px;
+    height: auto;
+    margin-bottom: 10px;
+    display: block;
+    margin-left: auto;
+    margin-right: 80px;
+
 }
 
     

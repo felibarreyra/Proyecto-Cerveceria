@@ -6,5 +6,6 @@
         <li><a href="listar_barrilescamara.php" class="navbar-link">STOCK EN CAMARA</a></li>
         <li><a href="listar_ventas.php" class="navbar-link">VENTAS</a></li>
         <li><a href="listar_barriles_vacios.php" class="navbar-link">ZONA VACIOS</a></li>
+        <li><a href="buscarbarril.php" class="navbar-link">BUSCAR BARRIL</a></li>
     </ul>
 </nav>

@@ -47,19 +47,22 @@ require_once __DIR__ . '/controllers/lugar.controller.php';
     ?>
 
    <section class="contenedor-modificar">
-    <h2 class="venta">Modificar Barril</h2>
+    <?php if ($barril): ?>
+        <h2 class="venta">Barril Código: <?= htmlspecialchars($barril->codigo) ?></h2>
+    <?php else: ?>
+        <h2 class="venta">Modificar Barril</h2>
+    <?php endif; ?>
 
     <!-- Formulario para buscar barril por código -->
     <form method="POST" class="form-buscar-barril">
         <label for="codigo">Ingrese Código del Barril:</label>
         <input type="text" name="codigo" id="codigo" required>
-        <button type="submit" name="buscar_barril">Buscar</button>
+        <button type="submit" name="buscar_barril"class="btn-modificar-buscar">Buscar</button>
     </form>
 
     <!-- Formulario para vaciar barril (si el barril se encuentra) -->
     <?php if ($barril): ?>
     <div id="formulario-vaciar">
-        <h3>Vaciar Barril Código: <?= htmlspecialchars($barril->codigo) ?></h3>
         <form action="vaciarBarril.php" method="POST">
             <input type="hidden" name="codigo" value="<?= htmlspecialchars($barril->codigo) ?>">
             <button type="submit" class="btn-vaciar">Vaciar Barril</button>
@@ -68,7 +71,6 @@ require_once __DIR__ . '/controllers/lugar.controller.php';
 
     <!-- Formulario de edición (si se encontró el barril) -->
     <div id="formulario-edicion">
-        <h3>Editando Barril Código: <?= htmlspecialchars($barril->codigo) ?></h3>
         <form action="actualizar.php" method="POST">
             <input type="hidden" name="codigo" value="<?= htmlspecialchars($barril->codigo) ?>">
             <label for="variedad">Variedad:</label>
@@ -113,7 +115,7 @@ require_once __DIR__ . '/controllers/lugar.controller.php';
 
             
 
-            <button type="submit" class="btn-guardar">Guardar Cambios</button>
+            <button type="submit" class="btn-modificar-guardar">Guardar Cambios</button>
         </form>
     </div>
 <?php elseif ($_SERVER['REQUEST_METHOD'] === 'POST'): ?>
