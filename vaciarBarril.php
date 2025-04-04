@@ -7,7 +7,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['codigo'])) {
     $barrilModel = new Barril();
     if ($barrilModel->vaciarBarril($codigo)) {
         // Redirigir a la página de origen (de donde vino la solicitud)
-        header("Location: ./listar_barriles_vacios.php"); // Redirige a la página de referencia
+        header("Location: ./actualizarbarril.php"); // Redirige a la página de referencia
         exit();
     } else {
         echo "Error al eliminar el barril.";

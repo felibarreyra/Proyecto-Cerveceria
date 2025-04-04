@@ -33,6 +33,13 @@ class lugarModel {
         $resultado = $stmt->fetch(PDO::FETCH_ASSOC);
         return $resultado ? $resultado['nombre'] : null;
     }
+    public function getIdByNombre($nombre) {
+        $sql = "SELECT id:lugar FROM lugar WHERE nombre = :nombre";
+        $stmt = $this->db->prepare($sql);
+        $stmt->bindParam(':nombre', $nombre, PDO::PARAM_STR);
+        $stmt->execute();
+        return $stmt->fetchColumn(); // Retorna el ID directamente
+    }
     
 
 

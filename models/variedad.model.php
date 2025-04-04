@@ -37,6 +37,7 @@ class Variedad {
         return $resultado ? $resultado['nombre'] : null;
     }
     
+    
 
 
     

@@ -296,11 +296,13 @@ public function obtenerNombreLugar($id_lugar) {
             return false; // Si hubo un error en la ejecución, retornar false
         }
     }
+    
     public function getBarrilesPorClienteOFecha($cliente, $fechaInicio, $fechaFin) {
         $query = "SELECT b.codigo, b.litros,b.id_variedad, v.precio_x_litro 
                   FROM barriles b 
                   JOIN variedades v ON b.id_variedad = v.id_variedad
-                  LEFT JOIN lugar l ON b.id_lugar = l.id_lugar";
+                  LEFT JOIN lugar l ON b.id_lugar = l.id_lugar
+                  WHERE b.id_lugar!=1 AND b.id_lugar!=4;";
         
         if (!empty($cliente) && $cliente !== 'sin_cliente') {
             // Remito de cliente en una fecha específica
