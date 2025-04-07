@@ -46,7 +46,22 @@ require_once __DIR__ . '/controllers/lugar.controller.php';
     }
     ?>
 
+
    <section class="contenedor-modificar">
+   <?php if (isset($_GET['mensaje'])): ?>
+    <div class="mensaje-sistema">
+        <?php if ($_GET['mensaje'] === 'ya_vacio'): ?>
+            <p class="mensaje-info">El barril ya estaba vacío.</p>
+        <?php elseif ($_GET['mensaje'] === 'vaciar_ok'): ?>
+            <p class="mensaje-exito">El barril se vació correctamente.</p>
+        <?php elseif ($_GET['mensaje'] === 'vaciar_error'): ?>
+            <p class="mensaje-error">Hubo un error al intentar vaciar el barril.</p>
+        <?php elseif ($_GET['mensaje'] === 'modificado'): ?>
+            <p class="mensaje-exito">Modificaste el barril con código <?= htmlspecialchars($_GET['codigo']) ?>.</p>
+        <?php endif; ?>
+    </div>
+<?php endif; ?>
+
     <?php if ($barril): ?>
         <h2 class="venta">Barril Código: <?= htmlspecialchars($barril->codigo) ?></h2>
     <?php else: ?>
@@ -62,6 +77,19 @@ require_once __DIR__ . '/controllers/lugar.controller.php';
 
     <!-- Formulario para vaciar barril (si el barril se encuentra) -->
     <?php if ($barril): ?>
+        <!-- Mostrar información actual del barril -->
+<div class="info-barril">
+    <h3>Información actual del barril:</h3>
+    <ul>
+        <?php $variedad=$controllerVariedades->getNombreVariedad($barril->id_variedad);
+        $lugar=$controllerLugar->getNombreLugarById($barril->id_lugar); ?>
+        <li><strong>Variedad:</strong> <?= htmlspecialchars($variedad) ?></li>
+        <li><strong>Lugar:</strong> <?= htmlspecialchars($lugar) ?></li>
+        <li><strong>Litros:</strong> <?= htmlspecialchars($barril->litros) ?>L</li>
+        <li><strong>Estado:</strong> <?= htmlspecialchars($barril->estado) ?></li>
+    </ul>
+</div>
+
     <div id="formulario-vaciar">
         <form action="vaciarBarril.php" method="POST">
             <input type="hidden" name="codigo" value="<?= htmlspecialchars($barril->codigo) ?>">

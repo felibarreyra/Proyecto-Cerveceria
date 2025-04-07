@@ -916,7 +916,7 @@ background-size: cover;
 }
 
 .modificar{
-    height: 1000px;
+    height: 1200px;
     background-image: url('./img/fondovaciar.jpg');
     background-size: cover;
     background-position: center; 
@@ -1166,6 +1166,24 @@ background-size: cover;
 .form-buscar-barril{
     margin: 40px auto 80px;;
 }
+.mensaje-exito {
+    color: green;
+    font-weight: bold;
+}
+
+
+.mensaje-info {
+    color: orange;
+    font-weight: bold;
+}
+
+.info-barril {
+    background-color: #f4f4f4;
+    padding: 10px;
+    margin: 15px 0;
+    border-left: 5px solid #00aaff;
+}
+
 
 
     

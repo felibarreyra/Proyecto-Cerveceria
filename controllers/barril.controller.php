@@ -73,7 +73,7 @@ class BarrilController {
             
             if ($result) {
                 // Redirigir siempre a actualizarbarril.php después de modificar
-                header("Location: ./actualizarbarril.php?mensaje=exito");
+                header("Location: ./actualizarbarril.php?mensaje=modificado&codigo=" . $codigo);
                 exit();
             } else {
                 // Si hubo un error en la actualización, redirigir con mensaje de error
@@ -100,17 +100,10 @@ class BarrilController {
     }
 
     public function getBarrilBycodigo($codigo){
-    if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['buscar_barril'])) {
-        // Verificamos que el código esté presente en el POST
-        if (isset($_POST['codigo']) && !empty($_POST['codigo'])) {
-            // Obtener el código del barril desde el formulario
-            $codigo = $_POST['codigo'];
-            // Llamar al método para obtener el barril por código
-            $resultado =$this->barrilModel->obtenerBarrilPorCodigo($codigo);
-            return $resultado;
-        }
+        // No importa si viene por formulario o no, si se pasa el código, se consulta.
+        return $this->barrilModel->obtenerBarrilPorCodigo($codigo);
     }
-    }
+    
     public function getFechaByCodigo($codigo) {
         return $this->barrilModel->getFechaByCodigo($codigo);
     }

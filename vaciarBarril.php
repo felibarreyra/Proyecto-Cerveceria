@@ -1,15 +1,24 @@
-<?php
-require_once './models/barril.model.php'; // Asegúrate de que el path es correcto
+<?php require_once __DIR__ . '/controllers/barril.controller.php';
 
-if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['codigo'])) {
-    $codigo= $_POST['codigo'];
+if ($_SERVER["REQUEST_METHOD"] === "POST" && isset($_POST["codigo"])) {
+    $codigo = $_POST["codigo"];
+    $controller = new BarrilController();
+    $model = new Barril();
 
-    $barrilModel = new Barril();
-    if ($barrilModel->vaciarBarril($codigo)) {
-        // Redirigir a la página de origen (de donde vino la solicitud)
-        header("Location: ./actualizarbarril.php"); // Redirige a la página de referencia
+    $barril = $controller->getBarrilBycodigo($codigo); // Ahora sí devuelve el barril correctamente
+
+    if ($barril && $barril->estado === 'VACIO') {
+        header("Location: ./actualizarbarril.php?mensaje=ya_vacio&codigo=" . $codigo);
         exit();
-    } else {
-        echo "Error al eliminar el barril.";
     }
+
+    $resultado = $model->vaciarBarril($codigo);
+
+    if ($resultado) {
+        header("Location: ./actualizarbarril.php?mensaje=vaciar_ok&codigo=" . $codigo);
+    } else {
+        header("Location: ./actualizarbarril.php?mensaje=vaciar_error&codigo=" . $codigo);
+    }
+    exit();
 }
+
