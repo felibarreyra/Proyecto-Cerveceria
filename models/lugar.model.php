@@ -1,5 +1,6 @@
 <?php
-require_once './config/database.php';
+    require_once __DIR__ . '/../config/database.php';
+
 
 class lugarModel {
     private $db;
@@ -33,6 +34,18 @@ class lugarModel {
         $resultado = $stmt->fetch(PDO::FETCH_ASSOC);
         return $resultado ? $resultado['nombre'] : null;
     }
+    public function agregarLugar($nombre) {
+        $stmt = $this->db->prepare("INSERT INTO lugar (nombre) VALUES (UPPER(?))");
+        $stmt->execute([$nombre]);
+        // Verifica si la inserción fue exitosa
+        return $stmt->fetch(PDO::FETCH_OBJ);
+    }
+    public function eliminarLugar($id) {
+        $stmt = $this->db->prepare("DELETE FROM lugar WHERE id_lugar = ?");
+        $stmt->execute([$id]);
+    }
+    
+    
     
     
 

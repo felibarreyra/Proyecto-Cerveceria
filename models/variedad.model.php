@@ -1,5 +1,6 @@
 <?php
-require_once './config/database.php';
+require_once __DIR__ . '/../config/database.php';
+
 
 class Variedad {
     private $db;
@@ -35,6 +36,27 @@ class Variedad {
         // Obtener el resultado y devolverlo
         $resultado = $query->fetch(PDO::FETCH_ASSOC);
         return $resultado ? $resultado['nombre'] : null;
+    }
+    public function agregarVariedad($nombre, $precio) {
+        $stmt = $this->db->prepare("INSERT INTO variedades (nombre, precio_x_litro) VALUES (UPPER(?), ?)");
+        $stmt->execute([$nombre, $precio]);
+        // Verifica si la inserción fue exitosa
+        return $stmt->fetch(PDO::FETCH_OBJ);
+    }
+    public function modificarPrecio($id_variedad, $precio) {
+        $stmt = $this->db->prepare("UPDATE variedades SET precio_x_litro = ? WHERE id_variedad = ?");
+        $stmt->execute([$precio, $id_variedad]);
+    }
+    public function eliminarVariedad($id_variedad) {
+        $stmt = $this->db->prepare("DELETE FROM variedades WHERE id_variedad = ?");
+        $stmt->execute([$id_variedad]);
+    }
+
+    public function getPrecioPorLitro($id_variedad) {
+        $query = $this->db->prepare('SELECT precio_x_litro FROM variedades WHERE id_variedad = ?');
+        $query->execute([$id_variedad]);
+        $resultado = $query->fetch(PDO::FETCH_ASSOC);
+        return $resultado ? $resultado['precio_x_litro'] : null;
     }
     
     

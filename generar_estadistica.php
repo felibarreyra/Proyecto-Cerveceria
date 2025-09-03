@@ -12,7 +12,8 @@ $pdf->Image('./img/logo.jpg', 10, 10, 40);
 // Título del documento
 $pdf->SetFont('Arial', 'B', 16);
 $pdf->Cell(200, 10, 'Estadistica de Camara', 0, 1, 'C');
-$pdf->Ln(28);
+$pdf->Ln(35);
+
 
 // Obtener los barriles en cámara actualmente
 $barrilController = new BarrilController();
@@ -52,6 +53,6 @@ $pdf->Cell(30, 10, $totalLitros . 'L', 1, 1, 'C');
 
 // Limpiar buffer y generar PDF
 if (ob_get_length()) ob_end_clean();
-$pdf->Output('D', 'estadisticas_camara_actual.pdf');
+$pdf->Output('D', 'estadistica_camara_actual.pdf');
 exit;
 ?>

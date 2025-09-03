@@ -50,8 +50,8 @@ class BarrilController {
         return $this->barrilModel->getBarrilesFiltradosVentas($variedad, $codigo, $litros,$lugar);
     }
 
-    public function getBarrilesFiltradosCamara($variedad = '', $codigo = '', $litros = '') {
-        return $this->barrilModel->getBarrilesFiltradosCamara($variedad, $codigo, $litros);
+    public function getBarrilesFiltradosCamara($variedad = '', $codigo = '', $litros = '',$estado = '') {
+        return $this->barrilModel->getBarrilesFiltradosCamara($variedad, $codigo, $litros,$estado);
     }
 
     public function getEstadoByCodigo($codigo) {
@@ -115,17 +115,21 @@ public function getNombre($id_lugar) {
 }
 
 
-public function getBarrilesPorClienteOFecha($cliente, $fechaInicio, $fechaFin) {
-    return $this->barrilModel->getBarrilesPorClienteOFecha($cliente, $fechaInicio, $fechaFin);
+    public function getBarrilesPorClienteOFecha($cliente, $fechaInicio, $fechaFin) {
+     return $this->barrilModel->getBarrilesPorClienteOFecha($cliente, $fechaInicio, $fechaFin);
+    }
+
+
+public function getVariedadPorId($id_variedad){
+        return $this->barrilModel->getVariedadPorId($id_variedad);
 }
 
-
-    public function getVariedadPorId($id_variedad){
-        return $this->barrilModel->getVariedadPorId($id_variedad);
-    }
-    public function obtenerBarrilesEnCamaraActuales() {
+public function obtenerBarrilesEnCamaraActuales() {
         return $this->barrilModel->obtenerBarrilesEnCamaraActuales();
-    }
+}
+public function registrarFechaVenta($id_barril, $fecha) {
+    return $this->barrilModel->registrarFechaVenta($id_barril, $fecha);
+}
     
     
 }

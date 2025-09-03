@@ -8,28 +8,31 @@ require_once __DIR__ . '/controllers/lugar.controller.php';
 <html lang="es">
 <head>
 <meta charset="UTF-8">
-    <link rel="icon" type="image/png" href="./img/logo.png">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="Sistema de control de stock y ventas para cervecería.">
-    <title>Sistema de Control de Stock</title>
-    
-    <!-- Estilos -->
-    <link rel="stylesheet" href="styles.css"> <!-- Asegurar que la ruta sea correcta -->
+<link rel="icon" type="image/png" href="./img/logo.png">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="Sistema de control de stock y ventas para cervecería.">
+<title>Sistema de Control de Stock</title>
 
-    <!-- Google Fonts -->
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Roboto+Condensed:wght@100..900&display=swap" rel="stylesheet">
+<!-- Bootstrap CSS -->
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+
+<!-- Estilos propios -->
+<link rel="stylesheet" href="styles.css">
+
+<link href="https://fonts.googleapis.com/css2?family=Roboto+Condensed:wght@100..900&display=swap" rel="stylesheet">
+<link href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css" rel="stylesheet">
+
 </head>
-<body>
+<body class="text-white section-fondo">
 
-    <!-- Header -->
-    <?php include './views/header.php'; ?>
+<!-- Header -->
+<?php include './views/header.php'; ?>
 
-    <!-- Barra de navegación -->
-    <?php include './views/nav.php'; ?>
-    <section class="modificar">
+<!-- Navbar -->
+<?php include './views/nav.php'; ?>
+
+<section class="container py-5 custom-height">
 
     <?php
     $controllerVariedades = new variedadController();
@@ -39,122 +42,154 @@ require_once __DIR__ . '/controllers/lugar.controller.php';
     $lugares = $controllerLugar->getAllLugares();
 
     $barril = null;
+    $lugar = null;
+
     if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['buscar_barril'])) {
         $codigo = $_POST['codigo'];
         $controller = new BarrilController();
         $barril = $controller->getBarrilBycodigo($codigo);
+        if ($barril) {
+            $lugar = $controllerLugar->getNombreLugarById($barril->id_lugar);
+        }
     }
     ?>
 
-
-   <section class="contenedor-modificar">
-   <?php if (isset($_GET['mensaje'])): ?>
-    <div class="mensaje-sistema">
+    <!-- Mensajes de sistema -->
+    <?php if (isset($_GET['mensaje'])): ?>
+        <div class="mb-4">
         <?php if ($_GET['mensaje'] === 'ya_vacio'): ?>
-            <p class="mensaje-info">El barril ya estaba vacío.</p>
+            <div class="alert alert-warning">El barril ya estaba vacío.</div>
         <?php elseif ($_GET['mensaje'] === 'vaciar_ok'): ?>
-            <p class="mensaje-exito">El barril se vació correctamente.</p>
+            <div class="alert alert-success">El barril se vació correctamente.</div>
         <?php elseif ($_GET['mensaje'] === 'vaciar_error'): ?>
-            <p class="mensaje-error">Hubo un error al intentar vaciar el barril.</p>
+            <div class="alert alert-danger">Hubo un error al intentar vaciar el barril.</div>
         <?php elseif ($_GET['mensaje'] === 'modificado'): ?>
-            <p class="mensaje-exito">Modificaste el barril con código <?= htmlspecialchars($_GET['codigo']) ?>.</p>
+            <div class="alert alert-success">Modificaste el barril con código <?= htmlspecialchars($_GET['codigo']) ?>.</div>
         <?php endif; ?>
-    </div>
-<?php endif; ?>
-
-    <?php if ($barril): ?>
-        <h2 class="venta">Barril Código: <?= htmlspecialchars($barril->codigo) ?></h2>
-    <?php else: ?>
-        <h2 class="venta">Modificar Barril</h2>
+        </div>
     <?php endif; ?>
 
-    <!-- Formulario para buscar barril por código -->
-    <form method="POST" class="form-buscar-barril">
-        <label for="codigo">Ingrese Código del Barril:</label>
-        <input type="text" name="codigo" id="codigo" required>
-        <button type="submit" name="buscar_barril"class="btn-modificar-buscar">Buscar</button>
-    </form>
+    <!-- Título -->
+    <h2 class="text-center mb-4"><?= $barril ? "Barril Código: " . htmlspecialchars($barril->codigo) : "Modificar Barril" ?></h2>
 
-    <!-- Formulario para vaciar barril (si el barril se encuentra) -->
-    <?php if ($barril): ?>
-        <!-- Mostrar información actual del barril -->
-<div class="info-barril">
-    <h3>Información actual del barril:</h3>
-    <ul>
-        <?php $variedad=$controllerVariedades->getNombreVariedad($barril->id_variedad);
-        $lugar=$controllerLugar->getNombreLugarById($barril->id_lugar); ?>
-        <li><strong>Variedad:</strong> <?= htmlspecialchars($variedad) ?></li>
-        <li><strong>Lugar:</strong> <?= htmlspecialchars($lugar) ?></li>
-        <li><strong>Litros:</strong> <?= htmlspecialchars($barril->litros) ?>L</li>
-        <li><strong>Estado:</strong> <?= htmlspecialchars($barril->estado) ?></li>
-    </ul>
+    <form method="POST" class="row g-3 justify-content-center mb-5">
+    <div class="col-md-6">
+        <input type="text" name="codigo" class="form-control form-control-lg" placeholder="Código del Barril" required>
+    </div>
+    <div class="col-md-2">
+    <button type="submit" name="buscar_barril" class="btn btn-primary btn-custom w-100">Buscar</button>
+
 </div>
 
-    <div id="formulario-vaciar">
-        <form action="vaciarBarril.php" method="POST">
-            <input type="hidden" name="codigo" value="<?= htmlspecialchars($barril->codigo) ?>">
-            <button type="submit" class="btn-vaciar">Vaciar Barril</button>
-        </form>
-    </div>
+</form>
 
-    <!-- Formulario de edición (si se encontró el barril) -->
-    <div id="formulario-edicion">
-        <form action="actualizar.php" method="POST">
-            <input type="hidden" name="codigo" value="<?= htmlspecialchars($barril->codigo) ?>">
-            <label for="variedad">Variedad:</label>
-<select name="id_variedad" id="variedad">
-    <option value="" <?= (!$barril->id_variedad || $barril->id_variedad == 4) ?>>--Seleccionar--</option>
-    <?php foreach ($variedades as $variedad): ?>
-        <?php if ($variedad->id_variedad != 4): ?>
-            <option value="<?= $variedad->id_variedad ?>" 
-                <?= ($barril->id_variedad == $variedad->id_variedad) ?>>
-                <?= htmlspecialchars($variedad->nombre) ?>
-            </option>
-        <?php endif; ?>
-    <?php endforeach; ?>
-</select>
-
-<label for="litros">Litros:</label>
-<select name="litros" id="litros">
     <?php if ($barril): ?>
-        <option value="<?= $barril->litros ?>" selected><?= $barril->litros ?>L</option>
-    <?php endif; ?>
-</select>
 
-<label for="estado">Estado:</label>
-<select name="estado" id="estado">
-    <option value="" <?= empty($barril->estado) ?>>--Seleccionar--</option>
-    <option value="LLENO" <?= ($barril->estado == 'LLENO')?>>LLENO</option>
-    <option value="EN USO" <?= ($barril->estado == 'EN USO') ?>>EN USO</option>
-</select>
+        <!-- Tabla con información del barril -->
+        <div class="table-responsive mb-4">
+            <table class="table table-dark table-bordered text-center">
+                <thead class="table-secondary text-dark">
+                    <tr>
+                        <th>Variedad</th>
+                        <th>Lugar</th>
+                        <th>Litros</th>
+                        <th>Estado</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><?= htmlspecialchars($controllerVariedades->getNombreVariedad($barril->id_variedad)) ?></td>
+                        <td><?= htmlspecialchars($lugar) ?></td>
+                        <td><?= htmlspecialchars($barril->litros) ?>L</td>
+                        <td><?= htmlspecialchars($barril->estado) ?></td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
 
-<label for="lugar">Lugar:</label>
-<select name="id_lugar" id="lugar">
-    <?php foreach ($lugares as $lugar): ?>
-        <?php if ($lugar->nombre === 'CAMARA'): ?>
-            <option value="<?= $lugar->id_lugar ?>" 
-                <?= ($barril->id_lugar == $lugar->id_lugar) ? 'selected' : '' ?>>
-                <?= htmlspecialchars($lugar->nombre) ?>
-            </option>
+        <!-- Vaciar o llenar barril -->
+        <div class="text-center mb-4">
+            <?php if (strtoupper($barril->estado) === 'VACIO'): ?>
+                <h5 class="text-warning">Llenar Barril</h5>
+            <?php else: ?>
+                <form action="vaciarBarril.php" method="POST">
+                    <input type="hidden" name="codigo" value="<?= htmlspecialchars($barril->codigo) ?>">
+                    <button type="submit" class="btn btn-danger">Vaciar Barril 🗑️</button>
+                </form>
+            <?php endif; ?>
+        </div>
+
+        <!-- Formulario de edición si está en ZONA_VACIOS -->
+        <?php if ($lugar === 'ZONA_VACIOS'): ?>
+        <div class="card bg-dark border-info p-4 mb-5">
+            <form action="actualizar.php" method="POST" class="row g-3">
+                <input type="hidden" name="codigo" value="<?= htmlspecialchars($barril->codigo) ?>">
+
+                <div class="col-md-3">
+                    <label for="variedad" class="form-label">Variedad</label>
+                    <select name="id_variedad" id="variedad" class="form-select">
+                        <option value="">--Seleccionar--</option>
+                        <?php foreach ($variedades as $variedad): ?>
+                            <?php if ($variedad->id_variedad != 4): ?>
+                                <option value="<?= $variedad->id_variedad ?>" <?= ($barril->id_variedad == $variedad->id_variedad) ? 'selected' : '' ?>>
+                                    <?= htmlspecialchars($variedad->nombre) ?>
+                                </option>
+                            <?php endif; ?>
+                        <?php endforeach; ?>
+                    </select>
+                </div>
+
+                <div class="col-md-2">
+                    <label for="litros" class="form-label">Litros</label>
+                    <select name="litros" id="litros" class="form-select">
+                        <option value="<?= $barril->litros ?>" selected><?= $barril->litros ?>L</option>
+                    </select>
+                </div>
+
+                <div class="col-md-3">
+                    <label for="estado" class="form-label">Estado</label>
+                    <select name="estado" id="estado" class="form-select">
+                        <option value="">--Seleccionar--</option>
+                        <option value="LLENO" <?= ($barril->estado == 'LLENO') ? 'selected' : '' ?>>LLENO</option>
+                        <option value="EN USO" <?= ($barril->estado == 'EN USO') ? 'selected' : '' ?>>EN USO</option>
+                    </select>
+                </div>
+
+                <div class="col-md-4">
+                    <label for="lugar" class="form-label">Lugar</label>
+                    <select name="id_lugar" id="lugar" class="form-select">
+                        <?php foreach ($lugares as $lugarObj): ?>
+                            <?php if ($lugarObj->nombre === 'CAMARA'): ?>
+                                <option value="<?= $lugarObj->id_lugar ?>" <?= ($barril->id_lugar == $lugarObj->id_lugar) ? 'selected' : '' ?>>
+                                    <?= htmlspecialchars($lugarObj->nombre) ?>
+                                </option>
+                            <?php endif; ?>
+                        <?php endforeach; ?>
+                    </select>
+                </div>
+
+                <div class="col-12 text-center">
+                    <button type="submit" class="btn btn-success mt-3">Guardar Cambios 💾</button>
+                </div>
+            </form>
+        </div>
+        <?php else: ?>
+            <div class="alert alert-info text-center">
+                Solo se puede llenar el barril si está en <strong>LA ZONA DE VACIOS</strong>. Actualmente está en <strong><?= htmlspecialchars($lugar) ?></strong>.
+            </div>
         <?php endif; ?>
-    <?php endforeach; ?>
-</select>
 
-
-            
-
-            <button type="submit" class="btn-modificar-guardar">Guardar Cambios</button>
-        </form>
-    </div>
-<?php elseif ($_SERVER['REQUEST_METHOD'] === 'POST'): ?>
-    <p class="mensaje-error">No se encontró el barril con ese código.</p>
-<?php endif; ?>
-
+    <?php elseif ($_SERVER['REQUEST_METHOD'] === 'POST'): ?>
+        <div class="alert alert-danger text-center">No se encontró el barril con ese código.</div>
+    <?php endif; ?>
 
 </section>
-</section>
-    <!-- Footer -->
-    <?php include './views/footer.php'; ?>
+
+<!-- Footer -->
+<?php include './views/footer.php'; ?>
+
+<!-- Bootstrap JS -->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
 
 </body>
 </html>

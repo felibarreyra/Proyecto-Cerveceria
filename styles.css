@@ -54,7 +54,7 @@ body{
 }
 
 /* Estilos generales de la barra de navegación */
-.navbar {
+.navbarr {
     background-color: rgba(51, 51, 51, 0.9); /* Fondo con leve transparencia */
     padding: 15px 0;
     font-family: Arial, sans-serif;
@@ -83,7 +83,7 @@ body{
     position: relative;
 }
 
-.navbar-link {
+.navbarr-link {
     color: #fff;
     text-decoration: none;
     font-size: 16px;
@@ -94,51 +94,73 @@ body{
 }
 
 /* Efecto de subrayado animado */
-.navbar-link::after {
+.nav-item::after {
     content: "";
     position: absolute;
     left: 50%;
     bottom: -5px;
     width: 0;
     height: 3px;
-    background-color: #ffcc00;
+    background-color: #0984e3;
     transition: width 0.3s ease, left 0.3s ease;
 }
+.input-fecha {
+    max-width: 160px;
+}
+.form-section {
+    background: #212529;
+    padding: 1.5rem;
+    border-radius: 10px;
+}
+.precio-input {
+    max-width: 150px;
+}
+.contenedor-remito{
+    margin-bottom: -150px;
+}
 
-.navbar-link:hover::after {
+.nav-item:hover::after {
     width: 100%;
     left: 0;
 }
+.nav-item{
+    padding: 10px;
+    margin-right: 15px;
+}
 
-.navbar-link:hover {
+.nav-item:hover {
     background-color: rgba(255, 255, 255, 0.1); /* Fondo sutil al pasar el mouse */
     color: #ffcc00; /* Color destacado */
 }
 
+
+.btn-var{
+    margin-bottom: 30px;
+}
 /* Estilos para dispositivos móviles */
 @media screen and (max-width: 768px) {
-    .navbar {
+    .navbarr {
         padding: 10px 0;
     }
 
-    .navbar-list {
+    .navbarr-list {
         flex-direction: column;
         align-items: center;
     }
 
-    .navbar-list li {
+    .navbarr-list li {
         margin: 10px 0;
         width: 100%;
         text-align: center;
     }
 
-    .navbar-link {
+    .navbarr-link {
         display: block;
         width: 100%;
         padding: 12px;
     }
 
-    .navbar-link:hover {
+    .navbarr-link:hover {
         background-color: #555;
     }
 }
@@ -154,6 +176,14 @@ body{
     background-attachment: fixed;
     background-size: cover;
     background-repeat: no-repeat;
+}
+.section-fondo{
+    background-image: url('./img/logo.jpg');
+    background-repeat: no-repeat;        /* Para que no se repita */
+    background-position: center right;  /* Centrado horizontal y vertical */
+    background-size: auto;               /* Tamaño original de la imagen */
+    background-attachment: fixed;        /* Fijo al hacer scroll */
+    background-color: #000000;
 }
 
 /* Sección Izquierda (Slider) */
@@ -302,6 +332,10 @@ body{
 .form-agregar select:focus {
     border-color: #007bff;
 }
+.btn-filtrado{
+    width: 100px;
+    height: 100px;
+}
 
 .form-agregar button {
     margin-top: 10px;
@@ -318,6 +352,9 @@ body{
 
 .form-agregar button:hover {
     background-color: #0056b3;
+}
+.contenedor-remito{
+    margin-bottom: 150px;
 }
 
 
@@ -458,7 +495,6 @@ h2.stock{
 }
 
 .contenedor-lista:hover {
-    transform: scale(1.02);
     box-shadow: 0 20px 40px rgba(0, 0, 0, 0.15);
 }
 
@@ -506,7 +542,6 @@ h2.stock{
 
 .contenedor-lista-ventas:hover {
     box-shadow: 0 18px 36px rgba(0, 0, 0, 0.15);
-    transform: scale(1.01);
 }
 
 .contenedor-lista-ventas h2 {
@@ -571,6 +606,10 @@ h2.stock{
     text-align: center;
     transition: transform 0.2s ease, box-shadow 0.3s ease;
     border-top: 5px solid #ff0000;
+}
+.barril-card-vacios:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.15);
 }
 
 .barril-card:hover {
@@ -892,10 +931,12 @@ h2.stock{
     box-shadow: 0 0 5px rgba(255, 0, 0, 0.7); /* Resalta el botón al hacer focus */
 }
 .camara{
-    background-image: url('./img/fondocamara.jpg');
-    background-size: cover;
-    background-position: center;
-    background-attachment: fixed;
+    background-image: url('./img/logo.jpg');
+    background-repeat: no-repeat;        /* Para que no se repita */
+    background-position: center right;  /* Centrado horizontal y vertical */
+    background-size: auto;               /* Tamaño original de la imagen */
+    background-attachment: fixed;        /* Fijo al hacer scroll */
+    background-color: #000000;
     height: 1500px;
     align-items: center;
     align-content: center;
@@ -907,38 +948,54 @@ h2.stock{
 }
 
 .agregar {
-background-image: url('./img/fondoagregar.jpg');
-background-size: cover;
- background-position: center; 
- background-attachment: fixed;
- height: 800px;
- align-content: center;
-}
+    background-image: url('./img/logo.jpg');
+    background-repeat: no-repeat;        /* Para que no se repita */
+    background-position: center right;  /* Centrado horizontal y vertical */
+    background-size: auto;               /* Tamaño original de la imagen */
+    background-attachment: fixed;        /* Fijo al hacer scroll */
+    background-color: #000000;
+    height: 800px;
+    align-content: center;
+    }
 
 .modificar{
     height: 1200px;
-    background-image: url('./img/fondovaciar.jpg');
-    background-size: cover;
-    background-position: center; 
-    background-attachment: fixed;
+    background-image: url('./img/logo.jpg');
+    background-repeat: no-repeat;        /* Para que no se repita */
+    background-position: center right;  /* Centrado horizontal y vertical */
+    background-size: auto;               /* Tamaño original de la imagen */
+    background-attachment: fixed;        /* Fijo al hacer scroll */
+    background-color: #000000;
     margin-top: -30px;
     align-content: center;
 }
 .ventas-container{
     height: 1600px;
+    width: 100%;
     align-content: center;
-    background-image: url('./img/fondo\ ventas.jpg');
-    background-size: cover;
-    background-position: center; 
-    background-attachment: fixed;
+    background-image: url('./img/logo.jpg');
+    background-repeat: no-repeat;        /* Para que no se repita */
+    background-position: center right;  /* Centrado horizontal y vertical */
+    background-size: auto;               /* Tamaño original de la imagen */
+    background-attachment: fixed;        /* Fijo al hacer scroll */
+    background-color: #000000;
+    margin-top: -200px;
 }
+.btn-sm {
+    height: calc(2.4rem + 2px); /* parecido a la altura de los selects */
+    padding: 0.25rem 0.75rem;
+    margin-top: 30px;
+}
+
 .vacios{
     height: 900px;
     align-content: center;
-    background-image: url('./img/fondovacioss.jpg');
-    background-size: cover;
-    background-position: center; 
-    background-attachment: fixed;
+    background-image: url('./img/logo.jpg');
+    background-repeat: no-repeat;        /* Para que no se repita */
+    background-position: center right;  /* Centrado horizontal y vertical */
+    background-size: auto;               /* Tamaño original de la imagen */
+    background-attachment: fixed;        /* Fijo al hacer scroll */
+    background-color: #000000;
 }
 .btn-generar {
     background-color: #007bff; /* Azul brillante */
@@ -1157,18 +1214,24 @@ background-size: cover;
 .section-buscar-barril {
     background-image: url('./img/logo.jpg');
     background-repeat: no-repeat;        /* Para que no se repita */
-    background-position: center center;  /* Centrado horizontal y vertical */
+    background-position: center right;  /* Centrado horizontal y vertical */
     background-size: auto;               /* Tamaño original de la imagen */
     background-attachment: fixed;        /* Fijo al hacer scroll */
     background-color: #000000;
 }
 
 .form-buscar-barril{
-    margin: 40px auto 80px;;
+    margin: 40px auto 80px;
 }
 .mensaje-exito {
     color: green;
     font-weight: bold;
+}
+.navbar-nav .nav-item {
+    margin-right: 5rem; /* ajustá el valor según lo que quieras */
+}
+.custom-height {
+    min-height: 800px; /* ajustá según necesites */
 }
 
 
@@ -1176,6 +1239,10 @@ background-size: cover;
     color: orange;
     font-weight: bold;
 }
+.btn-custom {
+    height: 50px;
+}
+
 
 .info-barril {
     background-color: #f4f4f4;

@@ -65,17 +65,20 @@ class Barril {
     }
 
     // Filtrado solo para barriles en "CAMARA"
-    public function getBarrilesFiltradosCamara($variedad = '', $codigo = '', $litros = '') {
+    public function getBarrilesFiltradosCamara($variedad = '', $codigo = '', $litros = '',$estado = '') {
         // Inicializamos la consulta
-        $query = "SELECT b.id_barril, b.codigo, b.id_variedad, v.nombre AS variedad, l.nombre AS lugar, b.litros, b.estado
+        $query = "SELECT b.id_barril, b.codigo, b.id_variedad,v.nombre AS variedad, l.nombre AS lugar, b.litros, b.estado
           FROM barriles b 
           JOIN variedades v ON b.id_variedad = v.id_variedad
           JOIN lugar l ON b.id_lugar = l.id_lugar
-          WHERE l.nombre = 'CAMARA' AND (b.estado = 'LLENO' OR b.estado = 'EN USO')";
+          WHERE l.nombre = 'CAMARA' AND (b.estado != 'VACIO')"; // Excluir barriles vacíos
     
         // Filtro por variedad
         if ($variedad) {
             $query .= " AND b.id_variedad = :variedad";
+        }
+        if($estado) {
+            $query .= " AND b.estado = :estado"; // Filtrar por estado
         }
     
         // Filtro por código
@@ -104,6 +107,10 @@ class Barril {
         if ($litros) {
             $stmt->bindParam(':litros', $litros, PDO::PARAM_STR);  // Es importante usar PDO::PARAM_STR para el ENUM
         }
+        if ($estado) {
+            $stmt->bindParam(':estado', $estado, PDO::PARAM_STR);
+        }
+        
     
         // Ejecutamos la consulta
         $stmt->execute();
@@ -298,33 +305,45 @@ public function obtenerNombreLugar($id_lugar) {
     }
     
     public function getBarrilesPorClienteOFecha($cliente, $fechaInicio, $fechaFin) {
-        $query = "SELECT b.codigo, b.litros,b.id_variedad, v.precio_x_litro 
+        $query = "SELECT b.codigo, b.litros, b.id_variedad, v.precio_x_litro 
                   FROM barriles b 
                   JOIN variedades v ON b.id_variedad = v.id_variedad
                   LEFT JOIN lugar l ON b.id_lugar = l.id_lugar
-                  WHERE b.id_lugar!=1 AND b.id_lugar!=4;";
+                  WHERE b.id_lugar != 1 AND b.id_lugar != 4";
         
+        $params = [];
+    
+        // Filtrar por cliente si corresponde
         if (!empty($cliente) && $cliente !== 'sin_cliente') {
-            // Remito de cliente en una fecha específica
-            $query .= " WHERE b.id_lugar = :cliente AND b.fecha_venta = :fechaInicio";;
-        } else {
-            // Remito sin cliente entre dos fechas
-            $query .= " WHERE b.fecha_venta BETWEEN :fechaInicio AND :fechaFin";
+            $query .= " AND b.id_lugar = :cliente";
+            $params[':cliente'] = $cliente;
+        }
+    
+        // Fechas
+        if (!empty($fechaInicio) && !empty($fechaFin)) {
+            $query .= " AND DATE(b.fecha_venta) BETWEEN :fechaInicio AND :fechaFin";
+            $params[':fechaInicio'] = $fechaInicio;
+            $params[':fechaFin'] = $fechaFin;
+        } elseif (!empty($fechaInicio)) {
+            $query .= " AND DATE(b.fecha_venta) >= :fechaInicio";
+            $params[':fechaInicio'] = $fechaInicio;
+        } elseif (!empty($fechaFin)) {
+            $query .= " AND DATE(b.fecha_venta) <= :fechaFin";
+            $params[':fechaFin'] = $fechaFin;
         }
     
         $stmt = $this->db->prepare($query);
     
-        if (!empty($cliente) && $cliente !== 'sin_cliente') {
-            $stmt->bindParam(':cliente', $cliente, PDO::PARAM_INT);
-            $stmt->bindParam(':fechaInicio', $fechaInicio, PDO::PARAM_STR);
-        } else {
-            $stmt->bindParam(':fechaInicio', $fechaInicio, PDO::PARAM_STR);
-            $stmt->bindParam(':fechaFin', $fechaFin, PDO::PARAM_STR);
+        // Bind dinámico
+        foreach ($params as $key => $value) {
+            $stmt->bindValue($key, $value);
         }
     
         $stmt->execute();
         return $stmt->fetchAll(PDO::FETCH_OBJ);
     }
+    
+    
     
     
     public function getVariedadPorId($id_variedad) {
@@ -351,6 +370,10 @@ public function obtenerNombreLugar($id_lugar) {
 public function actualizarLugarBarril($id_barril, $id_lugar) {
     $stmt = $this->db->prepare("UPDATE barriles SET id_lugar = ? WHERE id_barril = ?");
     return $stmt->execute([$id_lugar, $id_barril]);
+}
+public function registrarFechaVenta($id_barril, $fecha) {
+    $stmt = $this->db->prepare("UPDATE barriles SET fecha_venta = ? WHERE id_barril = ?");
+    $stmt->execute([$fecha, $id_barril]);
 }
 
 

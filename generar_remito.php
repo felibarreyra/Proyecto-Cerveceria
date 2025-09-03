@@ -72,6 +72,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['fecha_inicio'], $_POS
 
 
     if (ob_get_length()) ob_end_clean();
-    $pdf->Output('D', 'remito_' . ($cliente ?: 'todos') . '_' . $fechaInicio . '_' . $fechaFin . '.pdf');
+    $pdf->Output('D', 'BARRILES - ' . ($cliente ?: 'todos') . '_' . $fechaInicio . '_' . $fechaFin . '.pdf');
     exit;
 }

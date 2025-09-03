@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: 127.0.0.1
--- Tiempo de generación: 01-04-2025 a las 04:42:28
+-- Tiempo de generación: 19-04-2025 a las 18:16:10
 -- Versión del servidor: 10.4.32-MariaDB
 -- Versión de PHP: 8.2.12
 
@@ -42,13 +42,11 @@ CREATE TABLE `barriles` (
 --
 
 INSERT INTO `barriles` (`id_barril`, `codigo`, `id_variedad`, `id_lugar`, `litros`, `estado`, `fecha_venta`) VALUES
-(68, '01', 1, 2, '20', 'VACIO', NULL),
-(69, '02', 1, 1, '20', 'VACIO', NULL),
-(70, '03', 1, 1, '20', 'VACIO', NULL),
-(71, '04', 1, 1, '20', 'VACIO', NULL),
-(72, '05', 1, 1, '20', 'VACIO', NULL),
-(73, '06', 1, 1, '20', 'VACIO', NULL),
-(74, '07', 1, 1, '20', 'VACIO', NULL),
+(70, '03', 4, 4, '20', 'VACIO', NULL),
+(71, '04', 4, 4, '20', 'VACIO', NULL),
+(72, '05', 4, 4, '20', 'VACIO', NULL),
+(73, '06', 4, 4, '20', 'VACIO', NULL),
+(74, '07', 4, 4, '20', 'VACIO', NULL),
 (75, '08', 4, 4, '20', 'VACIO', NULL),
 (76, '09', 4, 4, '20', 'VACIO', NULL),
 (77, '10', 4, 4, '20', 'VACIO', NULL),
@@ -134,7 +132,10 @@ INSERT INTO `barriles` (`id_barril`, `codigo`, `id_variedad`, `id_lugar`, `litro
 (157, '117', 4, 4, '50', 'VACIO', NULL),
 (158, '118', 4, 4, '50', 'VACIO', NULL),
 (159, '119', 4, 4, '50', 'VACIO', NULL),
-(160, '120', 4, 4, '50', 'VACIO', NULL);
+(160, '120', 4, 4, '50', 'VACIO', NULL),
+(164, '01', 4, 4, '20', 'VACIO', NULL),
+(165, '02', 4, 4, '20', 'VACIO', NULL),
+(167, '24', 4, 4, '30', 'VACIO', NULL);
 
 -- --------------------------------------------------------
 
@@ -221,7 +222,7 @@ ALTER TABLE `variedades`
 -- AUTO_INCREMENT de la tabla `barriles`
 --
 ALTER TABLE `barriles`
-  MODIFY `id_barril` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=162;
+  MODIFY `id_barril` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=168;
 
 --
 -- AUTO_INCREMENT de la tabla `lugar`

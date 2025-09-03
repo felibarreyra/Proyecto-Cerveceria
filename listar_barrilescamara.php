@@ -7,162 +7,173 @@ require_once __DIR__ . '/controllers/lugar.controller.php';
 <html lang="es">
 <head>
 <meta charset="UTF-8">
-    <link rel="icon" type="image/png" href="./img/logo.png">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="Sistema de control de stock y ventas para cervecería.">
-    <title>Sistema de Control de Stock</title>
-    
-    <!-- Estilos -->
-    <link rel="stylesheet" href="styles.css"> <!-- Asegurar que la ruta sea correcta -->
+<link rel="icon" type="image/png" href="./img/logo.png">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Sistema de Control de Stock</title>
 
-    <!-- Google Fonts -->
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Roboto+Condensed:wght@100..900&display=swap" rel="stylesheet">
+<!-- Bootstrap CSS -->
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+
+<!-- Estilos propios -->
+<link rel="stylesheet" href="styles.css">
+<link href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css" rel="stylesheet">
+<!-- Google Fonts -->
+<link href="https://fonts.googleapis.com/css2?family=Roboto+Condensed:wght@100..900&display=swap" rel="stylesheet">
 </head>
-<body>
-    <?php include './views/header.php'; ?>
-    <?php include './views/nav.php'; ?>
+<body class="text-white bg-dark">
 
-    <section class="camara">
-        <?php
-        $controller = new BarrilController();
-        $barriles = $controller->getBarriles();
+<?php include './views/header.php'; ?>
+<?php include './views/nav.php'; ?>
 
-        $controllerVariedades = new variedadController();
-        $variedades = $controllerVariedades->getAllVariedades();
+<?php
+$controller = new BarrilController();
+$controllerVariedades = new variedadController();
+$controllerLugar = new lugarController();
 
-        $controllerLugar = new lugarController();
-        $lugares = $controllerLugar->getAllLugares();
+$variedades = $controllerVariedades->getAllVariedades();
+$lugares = $controllerLugar->getAllLugares();
 
-        $variedad = $_GET['variedad'] ?? '';
-        $codigo = $_GET['codigo'] ?? '';
-        $litros = $_GET['litros'] ?? '';
+$variedad = $_GET['variedad'] ?? '';
+$litros = $_GET['litros'] ?? '';
+$estado = $_GET['estado'] ?? '';
 
-        $barriles = $controller->getBarrilesFiltradosCamara($variedad, $codigo, $litros);
-        ?>
-         <section class="contenedor-lista">
-        <h2 class="venta">Stock en Cámara</h2>
+$barriles = $controller->getBarrilesFiltradosCamara($variedad, '', $litros, $estado);
 
-        <?php
-        if (isset($_GET['mensaje'])) {
-            if ($_GET['mensaje'] == 'exito_lugar') {
-                echo '<p style="color: green;">Barril cambiado de lugar exitosamente.</p>';
-            } elseif ($_GET['mensaje'] == 'error_lugar') {
-                echo '<p style="color: red;">Hubo un error al cambiar el barril de lugar.</p>';
-            }
-        }
-        ?>
-        <?php
-            // Contar barriles filtrados
-            $totalBarriles = count($barriles); // $barriles es el array con los barriles filtrados
-            // Calcular la cantidad total de litros
-            $totalLitros = 0;
-            foreach ($barriles as $barril) {
-                $totalLitros += $barril->litros;  // Acceder a los litros del barril como propiedad de objeto
-            }
-            
-        ?>
+$totalBarriles = count($barriles);
+$totalLitros = array_sum(array_map(fn($b) => $b->litros, $barriles));
+?>
 
+<section class="py-5 section-fondo" style="min-height: 100vh;">
+<div class="container-fluid py-4">
 
-<form action="listar_barrilescamara.php" method="GET" class="formulario-filtros">
-    <h3>Filtrar Barriles <span class="cantidad-barriles">(Cantidad: <?= $totalBarriles ?>)</span><span class="cantidad-litros">(Litros Totales: <?= $totalLitros ?>L)</span></h3>
-    
-    <div class="campo-filtro">
-    <label for="variedad">Variedad:</label>
-    <select name="variedad" id="variedad">
-        <option value="">--Seleccionar--</option>
-        <?php 
-        // Filtrar las variedades para no mostrar la que tenga nombre "VACIO"
-        $variedadesFiltradas = array_filter($variedades, function($variedad) {
-            return $variedad->nombre != 'VACIO';  // Verificar que el nombre no sea "VACIO"
-        });
-        
-        foreach ($variedadesFiltradas as $variedad): ?>
-            <option value="<?= $variedad->id_variedad ?>" <?= isset($_GET['variedad']) && $_GET['variedad'] == $variedad->id_variedad ? 'selected' : '' ?>>
-                <?= htmlspecialchars($variedad->nombre) ?>
-            </option>
-        <?php endforeach; ?>
-    </select>
-</div>
+<h2 class="mb-4 text-center text-info venta">📦 Stock en Cámara</h2>
 
-
-    <div class="campo-filtro">
-    <label for="litros">Litros:</label>
-    <select name="litros" id="litros">
-        <option value="">--Seleccionar--</option>
-        <option value="20" <?= isset($_GET['litros']) && $_GET['litros'] == '20' ? 'selected' : '' ?>>20L</option>
-        <option value="30" <?= isset($_GET['litros']) && $_GET['litros'] == '30' ? 'selected' : '' ?>>30L</option>
-        <option value="50" <?= isset($_GET['litros']) && $_GET['litros'] == '50' ? 'selected' : '' ?>>50L</option>
-    </select>
-</div>
-
-
-    <button type="submit" class="btn-filtrar">Filtrar</button>
-</form>
-
-
-    <form action="cambiar_lugar.php" method="POST">
-    <div class="lista-barriles">
-        <?php if (!empty($barriles)): ?>  
-            <?php foreach ($barriles as $barril): ?>
-                <?php 
-                    $estadoClase = strtolower(str_replace(" ", "-", $barril->estado)); 
-                    $esLleno = strtolower($barril->estado) === 'lleno'; 
-                ?>
-                <div class="barril-card estado-<?= $estadoClase ?>">
-                <?php
-                // Selección dinámica de la imagen según la capacidad del barril
-               
-                if ($barril->litros == 20) {
-                $imagenBarril = './img/barril20.jpg';
-                } elseif ($barril->litros == 30) {
-                 $imagenBarril = './img/barril.png';
-                } elseif ($barril->litros == 50) {
-                 $imagenBarril = './img/barril50.jpg';
-                }?>
-                    <img src="<?= $imagenBarril ?>" alt="Barril <?= htmlspecialchars($barril->litros) ?>L" class="img-barril">
-                    <?php if ($esLleno): ?>  
-                        <input type="checkbox" name="barriles[]" value="<?= $barril->id_barril ?>" class="checkbox-barril">
-                    <?php endif; ?>
-                    <h3><?= htmlspecialchars($barril->codigo) ?></h3>
-                    <p><b>VARIEDAD :</b> <?= htmlspecialchars($barril->variedad) ?></p>
-                    <p><b>LITROS :</b> <?= htmlspecialchars($barril->litros) ?>L</p>
-                    <p><b>ESTADO:</b> 
-                        <span class="estado <?= $estadoClase ?>">
-                            <?= htmlspecialchars($barril->estado) ?>
-                        </span>
-                    </p>
-                </div>
-            <?php endforeach; ?>
-        <?php else: ?>  
-            <p class="mensaje-vacio">No hay barriles registrados.</p>
-        <?php endif; ?>
-    </div>
-
-
-
-            <label for="lugar">Lugar:</label>
-            <select name="id_lugar" id="lugar">
+<!-- Formulario de filtros -->
+<form action="" method="GET" class="mb-4 bg-dark p-3 rounded shadow-sm">
+    <div class="row g-3 align-items-end">
+        <div class="col-md-3 col-sm-6">
+            <label for="variedad" class="form-label">Variedad</label>
+            <select name="variedad" id="variedad" class="form-select form-select-sm">
                 <option value="">--Seleccionar--</option>
-                <?php foreach ($lugares as $lugar): ?>
-                    <?php if ($lugar->nombre != 'CAMARA' && $lugar->nombre != 'ZONA_VACIOS'  ): ?>
-                        <option value="<?= $lugar->id_lugar ?>"><?= htmlspecialchars($lugar->nombre) ?></option>
-                    <?php endif; ?>
+                <?php foreach ($variedades as $v):
+                    if ($v->nombre != 'VACIO'):
+                        $sel = $variedad == $v->id_variedad ? 'selected' : '';
+                ?>
+                    <option value="<?= $v->id_variedad ?>" <?= $sel ?>><?= htmlspecialchars($v->nombre) ?></option>
+                <?php endif; endforeach; ?>
+            </select>
+        </div>
+        <div class="col-md-2 col-sm-6">
+            <label for="litros" class="form-label">Litros</label>
+            <select name="litros" id="litros" class="form-select form-select-sm">
+                <option value="">--Seleccionar--</option>
+                <?php foreach ([20,30,50] as $l):
+                    $sel = $litros == $l ? 'selected' : '';
+                ?>
+                    <option value="<?= $l ?>" <?= $sel ?>><?= $l ?>L</option>
                 <?php endforeach; ?>
             </select>
-
-            <button type="submit" class="btn-generar">Vender</button>
-        </form>
-    </section>
-    <form action="generar_estadistica.php" method="POST" class="form-remito">
-    <button type="submit" class="btn-generar">Generar Estadística de Cámara</button>
+        </div>
+        <div class="col-md-2 col-sm-6">
+            <label for="estado" class="form-label">Estado</label>
+            <select name="estado" id="estado" class="form-select form-select-sm">
+                <option value="">--Seleccionar--</option>
+                <?php foreach (['LLENO','EN USO'] as $e):
+                    $sel = $estado == $e ? 'selected' : '';
+                ?>
+                    <option value="<?= $e ?>" <?= $sel ?>><?= $e ?></option>
+                <?php endforeach; ?>
+            </select>
+        </div>
+        <div class="col-md-auto col-sm-6">
+            <button type="submit" class="btn btn-primary btn-sm w-100">Filtrar</button>
+        </div>
+        <div class="col-md text-end fw-bold text-white">
+            Cantidad: <?= $totalBarriles ?> | Litros Totales: <?= $totalLitros ?>L
+        </div>
+    </div>
 </form>
 
-    </section>
+<!-- Tabla de barriles con scroll -->
+<form action="cambiar_lugar.php" method="POST" class="bg-dark p-3 rounded shadow-sm">
+    <div class="table-responsive" style="max-height: 500px; overflow-y: auto;">
+        <table class="table table-dark table-hover table-bordered align-middle text-center">
+            <thead class="table-secondary text-dark sticky-top">
+                <tr>
+                    <th>Código</th>
+                    <th>Litros</th>
+                    <th>Variedad</th>
+                    <th>Estado</th>
+                    <th>✔</th>
+                </tr>
+            </thead>
+            <tbody>
+                <?php if (!empty($barriles)): ?>
+                    <?php foreach ($barriles as $barril): 
+                        $esExcluido = in_array(strtoupper($barril->variedad), ['LEVA KVEIK','LEVA S05']);
+                        $estadoEmoji = (strtolower($barril->estado) === 'lleno') 
+                            ? '🟢 Lleno' 
+                            : '🟡 En uso';
+                    ?>
+                        <tr>
+                            <td><?= htmlspecialchars($barril->codigo) ?></td>
+                            <td><?= $barril->litros ?>L</td>
+                            <td><?= htmlspecialchars($barril->variedad) ?></td>
+                            <td><?= $estadoEmoji ?></td>
+                            <td>
+                                <?php if ($esExcluido): ?>
+                                    -
+                                <?php elseif (strtolower($barril->estado) === 'lleno'): ?>
+                                    <input type="checkbox" name="barriles[]" value="<?= $barril->id_barril ?>">
+                                <?php else: ?>
+                                    -
+                                <?php endif; ?>
+                            </td>
+                        </tr>
+                    <?php endforeach; ?>
+                <?php else: ?>
+                    <tr>
+                        <td colspan="5" class="text-warning">No hay barriles registrados.</td>
+                    </tr>
+                <?php endif; ?>
+            </tbody>
+        </table>
+    </div>
 
-        <?php include './views/footer.php'; ?>
+    <!-- Formulario de venta/cambio de lugar -->
+    <div class="row mt-4 align-items-end">
+        <div class="col-md-4 col-sm-6">
+            <label for="lugar" class="form-label">Lugar</label>
+            <select name="id_lugar" id="lugar" class="form-select form-select-sm">
+                <option value="">--Seleccionar--</option>
+                <?php foreach ($lugares as $lugar):
+                    if (!in_array($lugar->nombre, ['CAMARA','ZONA_VACIOS'])): ?>
+                    <option value="<?= $lugar->id_lugar ?>"><?= htmlspecialchars($lugar->nombre) ?></option>
+                <?php endif; endforeach; ?>
+            </select>
+        </div>
+        <div class="col-md-auto col-sm-6">
+            <button type="submit" class="btn btn-success btn-sm w-100">Vender</button>
+        </div>
+    </div>
+</form>
 
+<!-- Botón generar estadística -->
+<div class="row mt-4">
+    <div class="col-md-3 col-sm-6">
+        <form action="generar_estadistica.php" method="POST">
+            <button type="submit" class="btn btn-secondary btn-lg w-100">Generar Estadística de Cámara</button>
+        </form>
+    </div>
+</div>
+
+</div>
+</section>
+
+<?php include './views/footer.php'; ?>
+
+<!-- Bootstrap JS -->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>
